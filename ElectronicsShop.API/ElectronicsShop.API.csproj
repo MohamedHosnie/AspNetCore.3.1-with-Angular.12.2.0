@@ -1,12 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ElectronicsShop.Core\ElectronicsShop.Core.csproj" />
+    <ProjectReference Include="..\ElectronicsShop.Application\ElectronicsShop.Application.csproj" />
     <ProjectReference Include="..\ElectronicsShop.EntityFrameworkCore\ElectronicsShop.EntityFrameworkCore.csproj" />
   </ItemGroup>
+
 
 </Project>
