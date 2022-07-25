@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ElectronicsShop.Core\ElectronicsShop.Core.csproj" />
     <ProjectReference Include="..\ElectronicsShop.EntityFrameworkCore\ElectronicsShop.EntityFrameworkCore.csproj" />
   </ItemGroup>
