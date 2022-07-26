@@ -32,6 +32,7 @@ namespace ElectronicsShop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRepositories();
             services.AddDomainServices();
             services.AddApplicationServices();
             services.AddControllers();
@@ -70,11 +71,11 @@ namespace ElectronicsShop
                     message = "Internal Server Error!";
                 }
 
-                await context.Response.WriteAsync(new Error()
+                await context.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(new Error()
                 {
                     StatusCode = context.Response.StatusCode,
                     Message = message
-                }.ToString());
+                }));
             }));
 
             app.UseRouting();
