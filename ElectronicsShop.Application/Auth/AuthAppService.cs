@@ -11,27 +11,33 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
+using ElectronicsShop.Core.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace ElectronicsShop.Application.Auth
 {
-    public class AuthAppService : IAuthAppService
+    public class AuthAppService : ElectronicsShopAppServiceBase, IAuthAppService
     {
         static User staticUser = new User();
         public readonly IConfiguration _configuration;
+        public readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthAppService(IConfiguration configuration)
+        public AuthAppService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<User> CreateUser(User user, string password)
+        public async Task<int> CreateUser(User user, string password)
         {
             var passwordHash = BC.HashPassword(password);
 
-            staticUser.Username = user.Username;
+            staticUser = user;
+            staticUser.Id = 10;
             staticUser.PasswordHash = passwordHash;
+            staticUser.Role = Role.Admin;
 
-            return await Task.FromResult(user);
+            return await Task.FromResult(staticUser.Id);
         }
 
         public Task<User> ValidateUser(User user, string password)
@@ -49,8 +55,9 @@ namespace ElectronicsShop.Application.Auth
         {
             List<Claim> claims = new List<Claim>
             {
+                new Claim("Id", user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, Roles.Admin),
+                new Claim(ClaimTypes.Role, user.Role.Name()),
             };
 
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:SecretKey").Value));
@@ -69,5 +76,22 @@ namespace ElectronicsShop.Application.Auth
             return Task.FromResult(jwt);
         }
 
+        public Task<int?> GetLoggedInUserId()
+        {
+            var user = _httpContextAccessor.HttpContext.User;
+            if (user == null) return Task.FromResult(null as int?);
+
+            var userIdValue = user.FindFirstValue("Id");
+            if (userIdValue == null) return Task.FromResult(null as int?);
+
+            if (!Int32.TryParse(userIdValue, out int userId)) return Task.FromResult(null as int?);
+
+            return Task.FromResult(userId as int?);
+        }
+
+        public Task<User> GetLoggedInUser()
+        {
+            return Task.FromResult(staticUser);
+        }
     }
 }

@@ -1,0 +1,92 @@
+﻿@using ElectronicsShop.Core.Enums
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script type="text/javascript">
+        let apiBaseUrl = "@ViewBag.ApiBaseUrl";
+        let anonymous = @(ViewBag.Anonymous == true ? "true" : "false");
+    </script>
+</head>
+<body>
+    <header>
+        @{
+            bool isAdmin = false;
+            if(ViewBag._Role != null)
+            {
+                Role role = RoleName.GetEnum(ViewBag._Role);
+                if(role == Role.Admin) isAdmin = true;
+            }
+        }
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand">Electronics Shop</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex">
+                    <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="@Url.Action("Index", "Home")">Products</a>
+                            </li>
+                            @if(ViewBag._LoggedIn == true)
+                            {
+                                
+                            }
+                            @if(isAdmin)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-primary" href="@Url.Action("Index", "Product")">Manage Products</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-primary" href="@Url.Action("Index", "Order")">Manage Orders</a>
+                                </li>
+                            }
+                    </ul>
+                    @if(ViewBag._LoggedIn == true)
+                    {
+                        <span class="navbar-text" id="username">
+                            @ViewBag._Username
+                            @if (isAdmin) { 
+                                <span class="small text-danger">(Admin)</span> @("|") 
+                            } 
+                            <a href="javascript:void(0)" id="Logout">Logout</a>
+                        </span>
+                    } else
+                    {
+                        <span class="navbar-text" id="username">
+                            <a href="javascript:void(0)" id="Register">Register</a> | <a href="javascript:void(0)" id="Login">Login</a>
+                        </span>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2022 - Electronics Shop
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        if(anonymous !== true)
+        {
+            @("$.api.Auth.IsAuthenticated();")
+        }
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

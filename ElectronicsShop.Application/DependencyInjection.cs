@@ -1,4 +1,5 @@
 ﻿using ElectronicsShop.Application.Auth;
+using ElectronicsShop.Application.Users;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace ElectronicsShop.Application
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IAuthAppService, AuthAppService>();
+            services.AddScoped<IUserAppService, UserAppService>();
             return services;
         }
 

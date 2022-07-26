@@ -39,7 +39,30 @@ namespace ElectronicsShop
             services.AddRepositories();
             services.AddDomainServices();
             services.AddApplicationServices();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "AllowAll",
+                    policy =>
+                    {
+                        policy.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
             services.AddControllers();
+            services.AddHttpContextAccessor();
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "ElectronicsShop.API", Version = "v1" });
+                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Description = "Standard Authorization header using the bearer scheme (\"bearer {token}\")",
+                    In = ParameterLocation.Header,
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                options.OperationFilter<SecurityRequirementsOperationFilter>();
+            });
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
@@ -51,17 +74,6 @@ namespace ElectronicsShop
                         ValidateAudience = false
                     };
                 });
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "ElectronicsShop.API", Version = "v1" });
-                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme { 
-                    Description = "Standard Authorization header using the bearer scheme (\"bearer {token}\")",
-                    In = ParameterLocation.Header,
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey
-                });
-                options.OperationFilter<SecurityRequirementsOperationFilter>();
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -101,6 +113,8 @@ namespace ElectronicsShop
             }));
 
             app.UseRouting();
+
+            app.UseCors("AllowAll");
 
             app.UseAuthentication();
 
