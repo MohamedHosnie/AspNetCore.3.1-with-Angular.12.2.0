@@ -1,6 +1,7 @@
 ﻿using ElectronicsShop.Application.Auth;
 using ElectronicsShop.Application.Auth.Dtos;
 using ElectronicsShop.Core.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -37,6 +38,12 @@ namespace ElectronicsShop.API.Controllers
             }, user.Password);
 
             return await _authAppService.CreateJwtToken(loginUser);
+        }
+
+        [HttpGet("Test"), Authorize(Roles = Roles.Admin)]
+        public async Task<string> test()
+        {
+            return await Task.FromResult("Success");
         }
     }
 }

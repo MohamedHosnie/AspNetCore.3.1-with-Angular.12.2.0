@@ -17,16 +17,20 @@ using Microsoft.AspNetCore.Http;
 using ElectronicsShop.Application.Errors;
 using ElectronicsShop.Application;
 using ElectronicsShop.Domain;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace ElectronicsShop
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        public IConfiguration _configuration { get; }
 
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -36,9 +40,27 @@ namespace ElectronicsShop
             services.AddDomainServices();
             services.AddApplicationServices();
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:SecretKey").Value)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
+            services.AddSwaggerGen(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ElectronicsShop.API", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "ElectronicsShop.API", Version = "v1" });
+                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme { 
+                    Description = "Standard Authorization header using the bearer scheme (\"bearer {token}\")",
+                    In = ParameterLocation.Header,
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
         }
 
@@ -79,6 +101,8 @@ namespace ElectronicsShop
             }));
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

@@ -49,13 +49,14 @@ namespace ElectronicsShop.Application.Auth
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Role, Roles.Admin),
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:SecretKey").Value));
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:SecretKey").Value));
             var expiryDays = Int32.Parse(_configuration.GetSection("AppSettings:JwtExpiryDays").Value);
 
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha384Signature);
+            var creds = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha384Signature);
 
             var token = new JwtSecurityToken(
                 claims: claims,
