@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using ElectronicsShop.Application.Users;
+using ElectronicsShop.Application.Auth.Dtos;
 
 namespace ElectronicsShop.API.Controllers
 {
@@ -39,7 +40,7 @@ namespace ElectronicsShop.API.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<string> Login(UserDto user)
+        public async Task<string> Login(LoginDto user)
         {
             User loginUser = await _authAppService.ValidateUser(new User
             {

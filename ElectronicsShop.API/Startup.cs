@@ -21,6 +21,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Swashbuckle.AspNetCore.Filters;
+using Microsoft.EntityFrameworkCore;
+using ElectronicsShop.EntityFrameworkCore;
 
 namespace ElectronicsShop
 {
@@ -36,6 +38,11 @@ namespace ElectronicsShop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ElectronicsShopDbContext>(options =>
+            {
+                options.UseSqlServer(_configuration.GetConnectionString("ElectronicsShopDbConnection"));
+            });
+
             services.AddRepositories();
             services.AddDomainServices();
             services.AddApplicationServices();

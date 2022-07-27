@@ -1,5 +1,8 @@
 ﻿using ElectronicsShop.Application.Auth;
 using ElectronicsShop.Application.Users;
+using ElectronicsShop.Core;
+using ElectronicsShop.Core.Users;
+using ElectronicsShop.EntityFrameworkCore.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,6 +16,9 @@ namespace ElectronicsShop.Application
         {
             services.AddScoped<IAuthAppService, AuthAppService>();
             services.AddScoped<IUserAppService, UserAppService>();
+
+            services.AddScoped<IRepository<User, int>, Repository<User, int>>();
+
             return services;
         }
 

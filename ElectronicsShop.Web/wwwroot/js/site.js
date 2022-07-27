@@ -10,20 +10,20 @@
 function Login() {
    /* window.location.href = "/Account/Login";*/
 
-    $.api.Auth.Register({
+    $.api.auth.Register({
         Username: "Ahmed",
         Password: "Hello"
     },
         function (result) {
             console.log(result);
-            $.api.Auth.Login({
+            $.api.auth.Login({
                 Username: "Ahmed",
                 Password: "Hello"
             },
                 function (result) {
                     console.log(result);
                     localStorage.setItem("jwtAuthToken", result);
-                    $.api.Auth.GetLoggedInUser(function (user) {
+                    $.api.auth.GetLoggedInUser(function (user) {
                         $.ajax({
                             url: "/Account/Login?Id=" + user.id + "&Username=" + user.username + "&FullName=" + user.fullName + "&FullAddress=" + user.fullAddress
                                 + "&Email=" + user.email + "&PhoneNumber=" + user.phoneNumber + "&BirthDate=" + user.birthDate + "&Role=" + user.role,
@@ -80,14 +80,15 @@ $.ajaxSetup({
  * API
  */
 $.api = {
-    Auth: {
+    auth: {
         Register: function (user, success, error) {
             ajaxCall(
                 "api/auth/Register",
                 "POST",
                 user,
                 success,
-                error
+                error,
+                true
             );
         },
         Login: function (user, success, error) {
@@ -96,7 +97,8 @@ $.api = {
                 "POST",
                 user,
                 success,
-                error
+                error,
+                true
             );
         },
         IsAuthenticated: function (success, error) {
@@ -123,7 +125,11 @@ $.api = {
 /**
  * API Helpers
  */
-function ajaxCall(_url, _type, _data, _success, _error) {
+function ajaxCall(_url, _type, _data, _success, _error, _loading) {
+    if (_loading == true) {
+        $.loading(true);
+    }
+
     $.ajax({
         url: apiBaseUrl + _url,
         type: _type,
@@ -149,15 +155,41 @@ function ajaxCall(_url, _type, _data, _success, _error) {
             } else {
                 handleAjaxError(error);
             }
+        },
+        complete: function () {
+            if (_loading == true) {
+                $.loading(false);
+            }
         }
     });
 }
 
 
 function handleAjaxError(_error) {
-    console.log(`Error ${_error}`);
+    var message = typeof _error === "string" ? _error : "There was an error sending the request to the server!";
+    $.toast({
+        heading: 'Error',
+        text: `Error ${message}`,
+        showHideTransition: 'fade',
+        icon: 'error'
+    })
 }
 
+$.loading = function(x) {
+    if (x == null) {
+        if ($("#Loading").is(":visible")) {
+            $("#Loading").fadeOut();
+        } else {
+            $("#Loading").fadeIn();
+        }
+    } else {
+        if (x == true) {
+            $("#Loading").fadeIn();
+        } else {
+            $("#Loading").fadeOut();
+        }
+    }
+}
 
 /**
  * Events

@@ -25,10 +25,9 @@ namespace ElectronicsShop.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDistributedMemoryCache();
-
             services.AddSession(options =>
             {
-                options.Cookie.Name = ".ElectronicShop.Session";
+                options.Cookie.Name = ".ElectronicsShop.Session";
                 options.IdleTimeout = TimeSpan.FromSeconds(60);
                 options.Cookie.IsEssential = true;
             });
