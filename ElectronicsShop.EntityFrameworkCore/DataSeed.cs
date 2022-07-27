@@ -1,4 +1,4 @@
-﻿using ElectronicsShop.Core.Enums;
+﻿using ElectronicsShop.Shared.Enums;
 using ElectronicsShop.Core.Products;
 using ElectronicsShop.Core.Users;
 using Microsoft.EntityFrameworkCore;

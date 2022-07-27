@@ -12,11 +12,11 @@ namespace ElectronicsShop.Core.Products
     {
         [Required]
         [DataType(DataType.Text)]
-        [StringLength(40, MinimumLength = 6)]
+        [StringLength(Shared.Consts.Product.Name_MaximumLength, MinimumLength = Shared.Consts.Product.Name_MinimumLength)]
         public string Name { get; set; }
         [Required]
         [DataType(DataType.Text)]
-        [StringLength(50, MinimumLength = 6)]
+        [StringLength(Shared.Consts.Product.Description_MaximumLength, MinimumLength = Shared.Consts.Product.Description_MinimumLength)]
         public string Description { get; set; }
         [Required]
         [DataType(DataType.Currency)]

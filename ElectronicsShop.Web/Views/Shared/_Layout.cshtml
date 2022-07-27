@@ -1,4 +1,4 @@
-﻿@using ElectronicsShop.Core.Enums
+﻿@using ElectronicsShop.Shared.Enums
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,8 +54,8 @@
                         <span class="navbar-text" id="username">
                             @ViewBag._Username
                             @if (isAdmin) { 
-                                <span class="small text-danger">(Admin)</span> @("|") 
-                            } 
+                                <span class="small text-danger">(Admin)</span>
+                            } @("|")
                             <a href="javascript:void(0)" id="Logout">Logout</a>
                         </span>
                     } else

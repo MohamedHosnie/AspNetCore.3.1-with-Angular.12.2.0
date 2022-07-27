@@ -1,4 +1,5 @@
 ﻿using ElectronicsShop.Core;
+using ElectronicsShop.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace ElectronicsShop.EntityFrameworkCore.Repositories
     public class RepositoryBase<TEntity, TPrimaryKey, TDbContext> : IRepository<TEntity, TPrimaryKey>
         where TEntity : Entity<TPrimaryKey> where TDbContext : DbContext
     {
-        TDbContext _dbContext;
+        public TDbContext _dbContext;
         public RepositoryBase()
         {
             _dbContext = (TDbContext)Activator.CreateInstance(typeof(TDbContext));
@@ -70,14 +71,20 @@ namespace ElectronicsShop.EntityFrameworkCore.Repositories
             return await getDbSet().Include(navigationPropertyPath).ToListAsync();
         }
 
-        public void Add(TEntity entity)
+        public TPrimaryKey Add(TEntity entity)
         {
-            throw new NotImplementedException();
+            getDbSet().Add(entity);
+            Save();
+
+            return entity.Id;
         }
 
-        public Task AddAsync(TEntity entity)
+        public async Task<TPrimaryKey> AddAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            await getDbSet().AddAsync(entity);
+            await SaveAsync();
+
+            return entity.Id;
         }
 
         public void Update(TPrimaryKey entityId, TEntity entity)

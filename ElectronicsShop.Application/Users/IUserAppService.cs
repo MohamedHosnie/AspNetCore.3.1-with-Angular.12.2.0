@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ElectronicsShop.Application.Users
 {
     public interface IUserAppService
     {
-        public User GetUserById(int value);
+        public bool UsernameIsUnique(string username);
     }
 }

@@ -28,7 +28,7 @@ namespace ElectronicsShop.Web
             services.AddSession(options =>
             {
                 options.Cookie.Name = ".ElectronicsShop.Session";
-                options.IdleTimeout = TimeSpan.FromSeconds(60);
+                options.IdleTimeout = TimeSpan.FromSeconds(1800);
                 options.Cookie.IsEssential = true;
             });
 

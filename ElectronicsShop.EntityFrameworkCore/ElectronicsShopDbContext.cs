@@ -37,6 +37,10 @@ namespace ElectronicsShop.EntityFrameworkCore
                 .WithMany(c => c.Orders)
                 .HasForeignKey(o => o.UserId);
 
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Username)
+                .IsUnique();
+
             modelBuilder.Seed();
         }
     }

@@ -94,3 +94,8 @@ main {
     left: calc(50% - 2rem);
     display: block;
 }
+
+.form-group label.error {
+    color: red;
+    font-size: small;
+}

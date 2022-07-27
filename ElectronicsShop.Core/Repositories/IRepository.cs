@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicsShop.Core
+namespace ElectronicsShop.Core.Repositories
 {
     public interface IRepository<TEntity, TPrimaryKey>
     {
@@ -15,8 +15,8 @@ namespace ElectronicsShop.Core
         Task<IList<TEntity>> GetAllAsync();
         IList<TEntity> GetAllIncluding(string navigationPropertyPath);
         Task<IList<TEntity>> GetAllIncludingAsync(string navigationPropertyPath);
-        void Add(TEntity entity);
-        Task AddAsync(TEntity entity);
+        TPrimaryKey Add(TEntity entity);
+        Task<TPrimaryKey> AddAsync(TEntity entity);
         void Update(TPrimaryKey entityId, TEntity entity);
         Task UpdateAsync(TPrimaryKey entityId, TEntity entity);
         bool Delete(TPrimaryKey entityId);

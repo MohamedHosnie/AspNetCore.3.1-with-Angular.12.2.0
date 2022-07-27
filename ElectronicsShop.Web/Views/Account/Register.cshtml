@@ -4,41 +4,114 @@
 
         <h1>Register</h1><br />
 
-        <form>
+        <form id="RegisterForm">
           <div class="form-group">
-            <label for="username">Full Name</label>
-            <input type="text" class="form-control" id="username" placeholder="Enter Full Name">
+            <label for="fullname">Full Name</label>
+            <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter Full Name">
+            <div class="invalid-feedback"></div>
           </div>
           <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" placeholder="Enter Username">
+            <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username">
+            <div class="invalid-feedback"></div>
           </div>
           <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Enter Password">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
+            <div class="invalid-feedback"></div>
           </div>
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter Email">
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email">
+            <div class="invalid-feedback"></div>
           </div>
           <div class="form-group">
-            <label for="mobile">Phone Number</label>
-            <input type="tel" class="form-control" id="mobile" placeholder="Enter Phone Number">
+            <label for="phonenumber">Phone Number</label>
+            <input type="tel" class="form-control" id="phonenumber" name="phonenumber" placeholder="Enter Phone Number">
+            <div class="invalid-feedback"></div>
           </div>
           <div class="form-group">
             <label for="birthdate">Birth Date</label>
-            <input type="date" class="form-control" id="birthdate" placeholder="Enter Birth Date">
+            <input type="date" class="form-control" id="birthdate" name="birthdate" placeholder="Enter Birth Date">
+            <div class="invalid-feedback"></div>
           </div>
           <div class="form-group">
-            <label for="address">Full Address</label>
-            <input type="text" class="form-control" id="address" placeholder="Enter Address">
+            <label for="fulladdress">Full Address</label>
+            <input type="text" class="form-control" id="fulladdress" name="fulladdress" placeholder="Enter Address">
+            <div class="invalid-feedback"></div>
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" class="submit btn btn-primary">Submit</button>
         </form>
 
     </div>
 </div>
 
+@section Scripts {
+@await Html.PartialAsync("_ValidationScriptsPartial")
 <script type="text/javascript">
-        
+    $(function() {
+        let form = $("#RegisterForm");
+
+        $("#RegisterForm .submit").click(function() {
+            if (form.valid()) { 
+                let user = $.getFormData(form);
+                $.api.auth.Register(user, function() {
+                    $._toast.success("Welcome! You have been successfully registered.");
+                    setTimeout(function() { 
+                        $.api.auth.Login({ username: user.username, password: user.password }, function(token) {
+                            StoreJwtToken(token);
+                        });
+                    }, 2000);
+                }, function(error) {
+                    if (error.responseJSON == -1) {
+                        $.addError(form, "username", "This username is unavailable, please choose a different one");
+                        return;
+                    }
+                    $.addErrorsToForm(form, error);
+                });
+            }
+        });
+
+        form.validate({
+            rules: {
+                username: {
+                    required: true,
+                    minlength: @(ElectronicsShop.Shared.Consts.User.Username_MinimumLength),
+                    maxlength: @(ElectronicsShop.Shared.Consts.User.Username_MaximumLength)
+                },
+                password: {
+                    required: true,
+                    minlength: @(ElectronicsShop.Shared.Consts.User.Password_MinimumLength),
+                    maxlength: @(ElectronicsShop.Shared.Consts.User.Password_MaximumLength)
+                },
+                fullname: {
+                    required: true,
+                    minlength: @(ElectronicsShop.Shared.Consts.User.FullName_MinimumLength),
+                    maxlength: @(ElectronicsShop.Shared.Consts.User.FullName_MaximumLength)
+                },
+                fulladdress: {
+                    required: true,
+                    minlength: @(ElectronicsShop.Shared.Consts.User.FullAddress_MinimumLength),
+                    maxlength: @(ElectronicsShop.Shared.Consts.User.FullAddress_MaximumLength)
+                },
+                email: {
+                    required: true,
+                    regex: /@Html.Raw(ElectronicsShop.Shared.Consts.User.Email_Regex)/,
+                    minlength: @(ElectronicsShop.Shared.Consts.User.Email_MinimumLength),
+                    maxlength: @(ElectronicsShop.Shared.Consts.User.Email_MaximumLength)
+                },
+                phonenumber: {
+                    required: true,
+                    regex: /@Html.Raw(ElectronicsShop.Shared.Consts.User.PhoneNumber_Regex)/,
+                    minlength: @(ElectronicsShop.Shared.Consts.User.PhoneNumber_MinimumLength),
+                    maxlength: @(ElectronicsShop.Shared.Consts.User.PhoneNumber_MaximumLength)
+                },
+                birthdate: {
+                    required: true,
+                    date: true
+                }
+            },
+        });
+    });
 </script>
+}

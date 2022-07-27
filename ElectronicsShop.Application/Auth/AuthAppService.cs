@@ -11,41 +11,44 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
-using ElectronicsShop.Core.Enums;
+using ElectronicsShop.Shared.Enums;
 using Microsoft.AspNetCore.Http;
+using ElectronicsShop.Core.Repositories;
 
 namespace ElectronicsShop.Application.Auth
 {
     public class AuthAppService : ElectronicsShopAppServiceBase, IAuthAppService
     {
-        static User staticUser = new User();
         public readonly IConfiguration _configuration;
         public readonly IHttpContextAccessor _httpContextAccessor;
+        public readonly IUserRepository _userRepository;
 
-        public AuthAppService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+        public AuthAppService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IUserRepository userRepository)
         {
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
+            _userRepository = userRepository;
         }
 
         public async Task<int> CreateUser(User user, string password)
         {
             var passwordHash = BC.HashPassword(password);
 
-            staticUser = user;
-            staticUser.Id = 10;
-            staticUser.PasswordHash = passwordHash;
-            staticUser.Role = Role.Admin;
+            user.PasswordHash = passwordHash;
+            user.Role = Role.Customer;
 
-            return await Task.FromResult(staticUser.Id);
+            var userId = await _userRepository.AddAsync(user);
+
+            return await Task.FromResult(userId);
         }
 
-        public Task<User> ValidateUser(User user, string password)
+        public async Task<User> ValidateUser(string username, string password)
         {
-            if (user.Username == staticUser.Username
-            && BC.Verify(password, staticUser.PasswordHash))
+            var savedUser = await _userRepository.GetByUsernameAsync(username);
+            if (savedUser != null
+            && BC.Verify(password, savedUser.PasswordHash))
             {
-                return Task.FromResult(staticUser);
+                return await Task.FromResult(savedUser);
             }
 
             throw new Exception("Username or Password Incorrect!");
@@ -76,22 +79,17 @@ namespace ElectronicsShop.Application.Auth
             return Task.FromResult(jwt);
         }
 
-        public Task<int?> GetLoggedInUserId()
+        public async Task<User> GetLoggedInUser()
         {
             var user = _httpContextAccessor.HttpContext.User;
-            if (user == null) return Task.FromResult(null as int?);
+            if (user == null) return await Task.FromResult(null as User);
 
             var userIdValue = user.FindFirstValue("Id");
-            if (userIdValue == null) return Task.FromResult(null as int?);
+            if (userIdValue == null) return await Task.FromResult(null as User);
 
-            if (!Int32.TryParse(userIdValue, out int userId)) return Task.FromResult(null as int?);
+            if (!Int32.TryParse(userIdValue, out int userId)) return await Task.FromResult(null as User);
 
-            return Task.FromResult(userId as int?);
-        }
-
-        public Task<User> GetLoggedInUser()
-        {
-            return Task.FromResult(staticUser);
+            return await _userRepository.GetAsync(userId);
         }
     }
 }

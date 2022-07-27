@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElectronicsShop.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(ElectronicsShopDbContext))]
-    [Migration("20220727052625_InitialCreate")]
+    [Migration("20220727113759_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -163,13 +163,16 @@ namespace ElectronicsShop.EntityFrameworkCore.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Username")
+                        .IsUnique();
+
                     b.ToTable("User");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            BirthDate = new DateTime(2022, 7, 27, 7, 26, 24, 857, DateTimeKind.Local).AddTicks(2585),
+                            BirthDate = new DateTime(2022, 7, 27, 13, 37, 58, 662, DateTimeKind.Local).AddTicks(8244),
                             Email = "sample@email.com",
                             FullAddress = "Cairo, Egypt",
                             FullName = "Electronics Shop Admin",

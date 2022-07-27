@@ -1,8 +1,12 @@
-﻿using ElectronicsShop.Application.Users.Dtos;
+﻿
 
 namespace ElectronicsShop.Web.Models
 {
-    public class User : GetLoggedInUserDto
+    public class User
     {
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public string FullName { get; set; }
+        public string Role { get; set; }
     }
 }

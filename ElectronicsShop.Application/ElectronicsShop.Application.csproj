@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ElectronicsShop.Domain\ElectronicsShop.Domain.csproj" />
+    <ProjectReference Include="..\ElectronicsShop.Shared\ElectronicsShop.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

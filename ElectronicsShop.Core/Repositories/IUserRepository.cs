@@ -1,0 +1,14 @@
+﻿using ElectronicsShop.Core.Users;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ElectronicsShop.Core.Repositories
+{
+    public interface IUserRepository : IRepository<User, int>
+    {
+        public User GetByUsername(string username);
+        public Task<User> GetByUsernameAsync(string username);
+    }
+}

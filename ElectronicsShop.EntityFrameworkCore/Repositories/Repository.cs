@@ -1,4 +1,5 @@
 ﻿using ElectronicsShop.Core;
+using ElectronicsShop.Core.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;

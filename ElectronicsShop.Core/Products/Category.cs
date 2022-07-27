@@ -11,7 +11,7 @@ namespace ElectronicsShop.Core.Products
     {
         [Required]
         [DataType(DataType.Text)]
-        [StringLength(40, MinimumLength = 6)]
+        [StringLength(Shared.Consts.Category.Name_MaximumLength, MinimumLength = Shared.Consts.Category.Name_MinimumLength)]
         public string Name { get; set; }
         public IList<Product> Products { get; set; }
     }

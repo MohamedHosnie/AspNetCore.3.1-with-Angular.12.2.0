@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ElectronicsShop.Core.Enums
+namespace ElectronicsShop.Shared.Enums
 {
     public enum Role
     {

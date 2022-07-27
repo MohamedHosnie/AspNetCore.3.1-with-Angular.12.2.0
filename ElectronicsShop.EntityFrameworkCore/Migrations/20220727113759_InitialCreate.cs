@@ -105,7 +105,7 @@ namespace ElectronicsShop.EntityFrameworkCore.Migrations
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "BirthDate", "Email", "FullAddress", "FullName", "PasswordHash", "PhoneNumber", "Role", "Username" },
-                values: new object[] { 1, new DateTime(2022, 7, 27, 7, 26, 24, 857, DateTimeKind.Local).AddTicks(2585), "sample@email.com", "Cairo, Egypt", "Electronics Shop Admin", "$2a$11$UBds5HSkR4cEPlGDo8lUyOCNOBmen37At0FJA8/kIgNdjUdMBxHUu", "011111", 1, "admin" });
+                values: new object[] { 1, new DateTime(2022, 7, 27, 13, 37, 58, 662, DateTimeKind.Local).AddTicks(8244), "sample@email.com", "Cairo, Egypt", "Electronics Shop Admin", "$2a$11$UBds5HSkR4cEPlGDo8lUyOCNOBmen37At0FJA8/kIgNdjUdMBxHUu", "011111", 1, "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_ProductId",
@@ -121,6 +121,12 @@ namespace ElectronicsShop.EntityFrameworkCore.Migrations
                 name: "IX_Product_CategoryId",
                 table: "Product",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_Username",
+                table: "User",
+                column: "Username",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

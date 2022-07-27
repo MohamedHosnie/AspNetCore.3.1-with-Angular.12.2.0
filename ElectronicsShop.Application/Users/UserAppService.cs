@@ -1,15 +1,24 @@
-﻿using ElectronicsShop.Core.Users;
+﻿using ElectronicsShop.Core.Repositories;
+using ElectronicsShop.Core.Users;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ElectronicsShop.Application.Users
 {
     public class UserAppService : ElectronicsShopAppServiceBase, IUserAppService
     {
-        public User GetUserById(int Id)
+        public readonly IUserRepository _userRepository;
+        public UserAppService(IUserRepository userRepository)
         {
-            throw new NotImplementedException();
+            _userRepository = userRepository;
+        }
+        public bool UsernameIsUnique(string username)
+        {
+            var existingUser = _userRepository.GetByUsername(username);
+            
+            return existingUser == null;
         }
     }
 }

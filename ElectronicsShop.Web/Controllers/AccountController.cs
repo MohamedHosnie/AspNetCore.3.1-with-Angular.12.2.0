@@ -39,7 +39,7 @@ namespace ElectronicsShop.Web.Controllers
         public ActionResult Logout()
         {
             _session.LoggedInUser = null;
-            return RedirectToAction("Login");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

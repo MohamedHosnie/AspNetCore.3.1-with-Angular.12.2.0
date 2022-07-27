@@ -8,42 +8,7 @@
  * Global Functions
  */
 function Login() {
-   /* window.location.href = "/Account/Login";*/
-
-    $.api.auth.Register({
-        Username: "Ahmed",
-        Password: "Hello"
-    },
-        function (result) {
-            console.log(result);
-            $.api.auth.Login({
-                Username: "Ahmed",
-                Password: "Hello"
-            },
-                function (result) {
-                    console.log(result);
-                    localStorage.setItem("jwtAuthToken", result);
-                    $.api.auth.GetLoggedInUser(function (user) {
-                        $.ajax({
-                            url: "/Account/Login?Id=" + user.id + "&Username=" + user.username + "&FullName=" + user.fullName + "&FullAddress=" + user.fullAddress
-                                + "&Email=" + user.email + "&PhoneNumber=" + user.phoneNumber + "&BirthDate=" + user.birthDate + "&Role=" + user.role,
-                            type: "POST",
-                            success: function () {
-                                window.location.href = "/Home";
-                            },
-                            error: function (error) {
-                                if (typeof _error === "function") {
-                                    _error(error);
-                                } else {
-                                    handleAjaxError(error);
-                                }
-                            }
-                        });
-                    });
-                }
-            );
-        }
-    );
+    window.location.href = "/Account/Login";
 }
 
 function Logout() {
@@ -53,6 +18,27 @@ function Logout() {
 
 function Register() {
     window.location.href = "/Account/Register";
+}
+
+function StoreJwtToken(token) {
+    localStorage.setItem("jwtAuthToken", token);
+    $.api.auth.GetLoggedInUser(function (user) {
+        $.ajax({
+            url: "/Account/Login?Id=" + user.id + "&Username=" + user.username + "&FullName=" + user.fullName + "&FullAddress=" + user.fullAddress
+                + "&Email=" + user.email + "&PhoneNumber=" + user.phoneNumber + "&BirthDate=" + user.birthDate + "&Role=" + user.role,
+            type: "POST",
+            success: function () {
+                window.location.href = "/Home";
+            },
+            error: function (error) {
+                if (typeof _error === "function") {
+                    _error(error);
+                } else {
+                    handleAjaxError(error);
+                }
+            }
+        });
+    });
 }
 
 
@@ -75,6 +61,8 @@ $.ajaxSetup({
         }
     }
 });
+
+
 
 /**
  * API
@@ -122,6 +110,8 @@ $.api = {
     }
 };
 
+
+
 /**
  * API Helpers
  */
@@ -164,18 +154,31 @@ function ajaxCall(_url, _type, _data, _success, _error, _loading) {
     });
 }
 
-
 function handleAjaxError(_error) {
     var message = typeof _error === "string" ? _error : "There was an error sending the request to the server!";
-    $.toast({
-        heading: 'Error',
-        text: `Error ${message}`,
-        showHideTransition: 'fade',
-        icon: 'error'
-    })
+    $._toast.error(message);
 }
 
-$.loading = function(x) {
+
+
+/**
+ * Global Events
+ */
+$("#Login").click(Login);
+$("#Logout").click(Logout);
+$("#Register").click(Register);
+$("form").keydown(function (event) {
+    if (event.which == 13) {
+        $(this).find("button[type=button].submit").click();
+    }
+});
+
+
+
+/**
+ * Helpers
+ */
+$.loading = function (x) {
     if (x == null) {
         if ($("#Loading").is(":visible")) {
             $("#Loading").fadeOut();
@@ -191,11 +194,113 @@ $.loading = function(x) {
     }
 }
 
-/**
- * Events
- */
-$("#Login").click(Login);
-$("#Logout").click(Logout);
-$("#Register").click(Register);
+$.getFormData = function ($form) {
+    var unindexed_array = $form.serializeArray();
+    var indexed_array = {};
+
+    $.map(unindexed_array, function (n, i) {
+        indexed_array[n['name']] = n['value'];
+    });
+
+    return indexed_array;
+}
+
+$.addErrorsToForm = function ($form, errorResponse) {
+    if (errorResponse.responseJSON == null) {
+        handleAjaxError(errorResponse);
+        return;
+    }
+
+    let fields = errorResponse.responseJSON.errors;
+    if (fields == null) {
+        handleAjaxError(errorResponse);
+        return;
+    }
+
+    for (const field in fields) {
+        let $field = $form.find("[name=" + field.toLowerCase() + "]");
+        $field.change(function () {
+            $(this).removeClass("is-invalid");
+        });
+
+        var validationFeedback = "";
+        for (const error of fields[field]) {
+            validationFeedback += error + "<br />";
+        }
+
+        let $fieldFeedback = $field.siblings(".invalid-feedback");
+        $fieldFeedback.html(validationFeedback);
+
+        $field.addClass("is-invalid");
+    }
+
+    $._toast.error("Invalid data entered, please fix the errors and try again!");
+}
+
+$.addError = function ($form, field, error) {
+    let $field = $form.find("[name=" + field.toLowerCase() + "]");
+    $field.change(function () {
+        $(this).removeClass("is-invalid");
+    });
+
+    let $fieldFeedback = $field.siblings(".invalid-feedback");
+    $fieldFeedback.html(error);
+
+    $field.addClass("is-invalid");
+
+    $._toast.error("Invalid data entered, please fix the errors and try again!");
+}
+
+$._toast = {
+    error: function (message) {
+        $.toast({
+            heading: 'Error',
+            text: `Error ${message}`,
+            showHideTransition: 'slide',
+            position: 'top-center',
+            icon: 'error'
+        })
+    },
+    success: function (message) {
+        $.toast({
+            heading: 'Success',
+            text: `Error ${message}`,
+            showHideTransition: 'slide',
+            position: 'top-center',
+            icon: 'success'
+        })
+    },
+    warning: function (message) {
+        $.toast({
+            heading: 'Warning',
+            text: `Error ${message}`,
+            showHideTransition: 'slide',
+            position: 'top-center',
+            icon: 'warning'
+        })
+    },
+    Info: function (message) {
+        $.toast({
+            heading: 'Information',
+            text: `Error ${message}`,
+            showHideTransition: 'slide',
+            position: 'top-center',
+            icon: 'info'
+        })
+    }
+}
+
+$(document).ready(function () {
+    if ($.validator != null) {
+        $.validator.addMethod(
+            "regex",
+            function (value, element, regexp) {
+                var re = new RegExp(regexp);
+                return this.optional(element) || re.test(value);
+            },
+            "Please check your input."
+        );
+    }
+});
 
 

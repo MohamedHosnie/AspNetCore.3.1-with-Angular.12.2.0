@@ -1,24 +1,55 @@
-﻿
-<div class="row justify-content-md-center">
+﻿<div class="row justify-content-md-center">
     <div class="col col-md-6">
         <h1>Login</h1><br />
 
-        <form>
+        <form id="LoginForm">
           <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" placeholder="Enter username">
+            <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
+            <div class="invalid-feedback"></div>
           </div>
           <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Password">
+            <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+            <div class="invalid-feedback"></div>
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" class="submit btn btn-primary">Submit</button>
         </form>
     </div>
 </div>
 
 
-
+@section Scripts {
+@await Html.PartialAsync("_ValidationScriptsPartial")
 <script type="text/javascript">
+    $(function() {
+        let form = $("#LoginForm");
         
+        $("#LoginForm .submit").click(function() {
+            if (form.valid()) {
+                let user = $.getFormData(form);
+                $.api.auth.Login(user, function(token) {
+                    StoreJwtToken(token);
+                }, function(error) {
+                    $.addErrorsToForm(form, error);
+                });
+            }
+        });
+
+        form.validate({
+            rules: {
+                username: {
+                    required: true,
+                    minlength: @(ElectronicsShop.Shared.Consts.User.Username_MinimumLength),
+                    maxlength: @(ElectronicsShop.Shared.Consts.User.Username_MaximumLength)
+                },
+                password: {
+                    required: true,
+                    minlength: @(ElectronicsShop.Shared.Consts.User.Password_MinimumLength),
+                    maxlength: @(ElectronicsShop.Shared.Consts.User.Password_MaximumLength)
+                }
+            },
+        });
+    });
 </script>
+}
