@@ -15,4 +15,9 @@
     <ProjectReference Include="..\ElectronicsShop.Shared\ElectronicsShop.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Product\" />
+    <Folder Include="Views\Order\" />
+  </ItemGroup>
+
 </Project>

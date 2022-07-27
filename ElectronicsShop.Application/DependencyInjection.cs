@@ -1,4 +1,6 @@
 ﻿using ElectronicsShop.Application.Auth;
+using ElectronicsShop.Application.Orders;
+using ElectronicsShop.Application.Products;
 using ElectronicsShop.Application.Users;
 using ElectronicsShop.Core.Repositories;
 using ElectronicsShop.Core.Users;
@@ -16,6 +18,8 @@ namespace ElectronicsShop.Application
         {
             services.AddScoped<IAuthAppService, AuthAppService>();
             services.AddScoped<IUserAppService, UserAppService>();
+            services.AddScoped<IProductAppService, ProductAppService>();
+            services.AddScoped<IOrderAppService, OrderAppService>();
             return services;
         }
 
