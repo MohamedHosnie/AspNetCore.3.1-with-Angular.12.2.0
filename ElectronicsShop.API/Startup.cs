@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +19,9 @@ using ElectronicsShop.Domain;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Swashbuckle.AspNetCore.Filters;
 using Microsoft.EntityFrameworkCore;
 using ElectronicsShop.EntityFrameworkCore;
+using NSwag;
 
 namespace ElectronicsShop
 {
@@ -58,17 +57,16 @@ namespace ElectronicsShop
             });
             services.AddControllers();
             services.AddHttpContextAccessor();
-            services.AddSwaggerGen(options =>
+            services.AddSwaggerDocument(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "ElectronicsShop.API", Version = "v1" });
-                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                options.Title = "Electronics Shop API";
+                options.AddSecurity("oauth2", new OpenApiSecurityScheme
                 {
                     Description = "Standard Authorization header using the bearer scheme (\"bearer {token}\")",
-                    In = ParameterLocation.Header,
+                    In = OpenApiSecurityApiKeyLocation.Header,
                     Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey
+                    Type = OpenApiSecuritySchemeType.ApiKey
                 });
-                options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -89,8 +87,8 @@ namespace ElectronicsShop
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ElectronicsShop.API v1"));
+                app.UseOpenApi();
+                app.UseSwaggerUi3();
             }
 
             app.UseHttpsRedirection();
