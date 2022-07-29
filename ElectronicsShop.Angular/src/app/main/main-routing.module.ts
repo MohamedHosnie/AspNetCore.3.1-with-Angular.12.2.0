@@ -10,9 +10,8 @@ import { AdminGuard } from '../shared/services/auth/admin.guard';
 import { UnauthGuard } from '../shared/services/auth/unauth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
   {
-    path: 'home',
+    path: '',
     component: HomeComponent,
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
     pathMatch: 'full',

@@ -3,12 +3,3 @@ body {
   padding-top: 4.5rem;
   padding-bottom: 4.5rem;
 }
-
-.form-control {
-    margin-top: 1em;
-    margin-bottom: 0;
-}
-
-.invalid-feedback {
-    margin-top: 0;
-}

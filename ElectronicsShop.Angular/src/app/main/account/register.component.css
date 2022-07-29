@@ -1,0 +1,12 @@
+.container {
+  max-width: 960px;
+  padding-bottom: 4.5rem;
+}
+
+.lh-condensed {
+  line-height: 1.25;
+}
+
+label {
+    margin-bottom: 0;
+}

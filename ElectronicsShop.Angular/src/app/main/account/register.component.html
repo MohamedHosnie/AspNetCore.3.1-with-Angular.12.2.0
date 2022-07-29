@@ -1,0 +1,72 @@
+<div class="container">
+  <div class="py-3 text-center">
+    <h2>Register</h2>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="col-md-8 order-md-1">
+      <form class="register-form" novalidate>
+        <div class="mb-3">
+          <label for="fullname">Full Name</label>
+          <input type="text" class="form-control" id="fullname" placeholder="Enter Full Name" value="" required>
+          <div class="invalid-feedback">
+            Valid first name is required.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="username">Username</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">@</span>
+            </div>
+            <input type="text" class="form-control" id="username" placeholder="Enter Username" required>
+            <div class="invalid-feedback" style="width: 100%;">
+              Your username is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="email">Email <span class="text-muted">(Optional)</span></label>
+          <input type="email" class="form-control" id="email" placeholder="Enter Email">
+          <div class="invalid-feedback">
+            Please enter a valid email address for shipping updates.
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" placeholder="Enter Password" value="" required>
+          <div class="invalid-feedback">
+            Valid first name is required.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="fulladdress">Full Address</label>
+          <input type="text" class="form-control" id="fulladdress" placeholder="Enter Full Address" required>
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="phonenumber">Phone Number</label>
+          <input type="text" class="form-control" id="phonenumber" placeholder="Enter Phone Number" required>
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="birthdate">Birth Date</label>
+          <input type="date" class="form-control" id="birthdate" placeholder="Enter Birth Date" required>
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Create Account</button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -40,7 +40,7 @@ export function appInitializerFactory(injector: Injector, platformLocation: Plat
         let sessionService: SessionService = injector.get(SessionService);
         sessionService.init().then((user: GetLoggedInUserDto) => {
           // Do something with the user here
-          //console.log("hey");
+
           resolve(true);
         }, (err: any) => {
           resolve(err);

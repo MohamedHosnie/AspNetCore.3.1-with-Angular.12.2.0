@@ -13,6 +13,10 @@ const routes: Routes = [
     path: '**',
     component: ErrorComponent
   },
+  {
+    path: 'error',
+    component: ErrorComponent
+  }
 ];
 
 @NgModule({
