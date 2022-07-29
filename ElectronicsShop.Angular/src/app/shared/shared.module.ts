@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ServiceProxyModule } from './service-proxies/service-proxy.module';
+import { ServicesModule } from './services/services.module';
 
 
 
@@ -8,10 +9,12 @@ import { ServiceProxyModule } from './service-proxies/service-proxy.module';
   declarations: [],
   imports: [
     CommonModule,
-    ServiceProxyModule
+    ServiceProxyModule,
+    ServicesModule
   ],
   exports: [
-    ServiceProxyModule
+    ServiceProxyModule,
+    ServicesModule
   ]
 })
 export class SharedModule { }

@@ -1,0 +1,26 @@
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <a class="navbar-brand" href="#">{{applicationName}}</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" [routerLink]="'/'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a class="nav-link" [routerLink]="'/'">Products</a>
+      </li>
+      <li class="nav-item" [routerLink]="'/product'" routerLinkActive="active" *ngIf="isAdmin">
+        <a class="nav-link" [routerLink]="'/product'">Manage Products</a>
+      </li>
+      <li class="nav-item" [routerLink]="'/order'" routerLinkActive="active" *ngIf="isAdmin">
+        <a class="nav-link" [routerLink]="'/order'">Manage Orders</a>
+      </li>
+    </ul>
+    <span class="navbar-text">
+      <a [routerLink]="'account/login'" *ngIf="isAuthenticated == false">Login</a>
+      <span *ngIf="isAuthenticated == true">{{username}}</span> |
+      <a [routerLink]="'account/register'" *ngIf="isAuthenticated == false">Register</a>
+      <a (click)="logout()" href="javascript:void(0);" *ngIf="isAuthenticated == true">Logout</a>
+    </span>
+  </div>
+</nav>

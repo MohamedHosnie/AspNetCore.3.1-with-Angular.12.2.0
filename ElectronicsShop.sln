@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32519.379
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronicsShop.API", "ElectronicsShop.API\ElectronicsShop.API.csproj", "{7A71F7AF-B3DC-4DB4-A22A-8D029844BC6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronicsShop.Api", "ElectronicsShop.Api\ElectronicsShop.Api.csproj", "{7A71F7AF-B3DC-4DB4-A22A-8D029844BC6F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronicsShop.Application", "ElectronicsShop.Application\ElectronicsShop.Application.csproj", "{9672898A-7F53-49AF-88A8-DF8B483EDCAD}"
 EndProject
@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronicsShop.EntityFrame
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronicsShop.Tests", "ElectronicsShop.Tests\ElectronicsShop.Tests.csproj", "{2782FCF5-1AB1-4677-89E8-DD3D3CC69084}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronicsShop.Web", "ElectronicsShop.Web\ElectronicsShop.Web.csproj", "{54E09518-E016-4868-B152-10751D9876BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronicsShop.Mvc", "ElectronicsShop.Mvc\ElectronicsShop.Mvc.csproj", "{54E09518-E016-4868-B152-10751D9876BB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{DBDD8F19-B16A-4410-A97A-E839BE582425}"
 EndProject
