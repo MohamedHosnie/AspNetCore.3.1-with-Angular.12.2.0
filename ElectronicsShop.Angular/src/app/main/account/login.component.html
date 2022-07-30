@@ -1,7 +1,7 @@
 <form class="form-signin" [formGroup]="form" (submit)="submit()">
   <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 
-  <input formControlName="username" type="text" id="username" class="form-control" placeholder="Username" required
+  <input formControlName="username" type="text" id="username" class="form-control" placeholder="Username"
          [ngClass]="{'is-invalid': form.controls.username.invalid && (form.controls.username.dirty || form.controls.username.touched) }">
 
   <div class="invalid-feedback" *ngIf="form.controls.username.invalid && (form.controls.username.dirty || form.controls.username.touched)">
@@ -13,7 +13,7 @@
     </span>
   </div>
 
-  <input formControlName="password" type="password" id="password" class="form-control" placeholder="Password" required
+  <input formControlName="password" type="password" id="password" class="form-control" placeholder="Password"
          [ngClass]="{'is-invalid': form.controls.password.invalid && (form.controls.password.dirty || form.controls.password.touched) }">
 
   <div class="invalid-feedback" *ngIf="form.controls.password.invalid && (form.controls.password.dirty || form.controls.password.touched)">

@@ -4,12 +4,19 @@
   </div>
   <div class="row justify-content-md-center">
     <div class="col-md-8 order-md-1">
-      <form class="register-form" novalidate>
+      <form class="register-form" [formGroup]="form" (submit)="submit()">
+
         <div class="mb-3">
           <label for="fullname">Full Name</label>
-          <input type="text" class="form-control" id="fullname" placeholder="Enter Full Name" value="" required>
-          <div class="invalid-feedback">
-            Valid first name is required.
+          <input formControlName="fullname" type="text" class="form-control" id="fullname" placeholder="Enter Full Name"
+                 [ngClass]="{'is-invalid': form.controls.fullname.invalid && (form.controls.fullname.dirty || form.controls.fullname.touched) }">
+          <div class="invalid-feedback" *ngIf="form.controls.fullname.invalid && (form.controls.fullname.dirty || form.controls.fullname.touched)">
+            <span *ngIf="form.controls.fullname.errors?.['required']">
+              Full Name is required.
+            </span>
+            <span *ngIf="form.controls.fullname.errors?.['minlength'] || form.controls.fullname.errors?.['maxlength']">
+              Full Name must be between 5 and 30 in length.
+            </span>
           </div>
         </div>
 
@@ -19,49 +26,97 @@
             <div class="input-group-prepend">
               <span class="input-group-text">@</span>
             </div>
-            <input type="text" class="form-control" id="username" placeholder="Enter Username" required>
-            <div class="invalid-feedback" style="width: 100%;">
-              Your username is required.
+            <input formControlName="username" type="text" class="form-control" id="username" placeholder="Enter Username"
+                   [ngClass]="{'is-invalid': (form.controls.username.invalid && (form.controls.username.dirty || form.controls.username.touched)) || duplicateUsername == true }">
+            <div class="invalid-feedback" *ngIf="(form.controls.username.invalid && (form.controls.username.dirty || form.controls.username.touched)) || duplicateUsername == true">
+              <span *ngIf="form.controls.username.errors?.['required']">
+                Username is required.
+              </span>
+              <span *ngIf="form.controls.username.errors?.['minlength'] || form.controls.username.errors?.['maxlength']">
+                Full Name must be between 5 and 15 in length.
+              </span>
+              <span *ngIf="duplicateUsername == true">
+                This Username is not available, please select a different one.
+              </span>
             </div>
           </div>
         </div>
 
         <div class="mb-3">
-          <label for="email">Email <span class="text-muted">(Optional)</span></label>
-          <input type="email" class="form-control" id="email" placeholder="Enter Email">
-          <div class="invalid-feedback">
-            Please enter a valid email address for shipping updates.
+          <label for="email">Email</label>
+          <input formControlName="email" type="email" class="form-control" id="email" placeholder="Enter Email"
+                 [ngClass]="{'is-invalid': form.controls.email.invalid && (form.controls.email.dirty || form.controls.email.touched) }">
+          <div class="invalid-feedback" *ngIf="form.controls.email.invalid && (form.controls.email.dirty || form.controls.email.touched)">
+            <span *ngIf="form.controls.email.errors?.['required']">
+              Email is required.
+            </span>
+            <span *ngIf="form.controls.email.errors?.['minlength'] || form.controls.email.errors?.['maxlength']">
+              Email must be between 5 and 254 in length.
+            </span>
+            <span *ngIf="form.controls.email.errors?.['pattern']">
+              Email format is not correct.
+            </span>
           </div>
         </div>
         <div class="mb-3">
           <label for="password">Password</label>
-          <input type="password" class="form-control" id="password" placeholder="Enter Password" value="" required>
-          <div class="invalid-feedback">
-            Valid first name is required.
+          <input formControlName="password" type="password" class="form-control" id="password" placeholder="Enter Password"
+                 [ngClass]="{'is-invalid': form.controls.password.invalid && (form.controls.password.dirty || form.controls.password.touched) }">
+          <div class="invalid-feedback" *ngIf="form.controls.password.invalid && (form.controls.password.dirty || form.controls.password.touched)">
+            <span *ngIf="form.controls.password.errors?.['required']">
+              Password is required.
+            </span>
+            <span *ngIf="form.controls.password.errors?.['minlength'] || form.controls.password.errors?.['maxlength']">
+              Password must be between 8 and 20 in length.
+            </span>
           </div>
         </div>
 
         <div class="mb-3">
           <label for="fulladdress">Full Address</label>
-          <input type="text" class="form-control" id="fulladdress" placeholder="Enter Full Address" required>
-          <div class="invalid-feedback">
-            Please enter your shipping address.
+          <input formControlName="fulladdress" type="text" class="form-control" id="fulladdress" placeholder="Enter Full Address"
+                 [ngClass]="{'is-invalid': form.controls.fulladdress.invalid && (form.controls.fulladdress.dirty || form.controls.fulladdress.touched) }">
+          <div class="invalid-feedback" *ngIf="form.controls.fulladdress.invalid && (form.controls.fulladdress.dirty || form.controls.fulladdress.touched)">
+            <span *ngIf="form.controls.fullname.errors?.['required']">
+              Full Address is required.
+            </span>
+            <span *ngIf="form.controls.fulladdress.errors?.['minlength'] || form.controls.fulladdress.errors?.['maxlength']">
+              Full Address must be between 5 and 50 in length.
+            </span>
           </div>
         </div>
 
         <div class="mb-3">
           <label for="phonenumber">Phone Number</label>
-          <input type="text" class="form-control" id="phonenumber" placeholder="Enter Phone Number" required>
-          <div class="invalid-feedback">
-            Please enter your shipping address.
+          <input formControlName="phonenumber" type="text" class="form-control" id="phonenumber" placeholder="Enter Phone Number"
+                 [ngClass]="{'is-invalid': form.controls.phonenumber.invalid && (form.controls.phonenumber.dirty || form.controls.phonenumber.touched) }">
+          <div class="invalid-feedback" *ngIf="form.controls.phonenumber.invalid && (form.controls.phonenumber.dirty || form.controls.phonenumber.touched)">
+            <span *ngIf="form.controls.phonenumber.errors?.['required']">
+              Phone Number is required.
+            </span>
+            <span *ngIf="form.controls.phonenumber.errors?.['minlength'] || form.controls.phonenumber.errors?.['maxlength']">
+              Phone Number must be between 5 and 15 in length.
+            </span>
+            <span *ngIf="form.controls.phonenumber.errors?.['pattern']">
+              Phone Number format is not correct.
+            </span>
           </div>
         </div>
 
         <div class="mb-3">
           <label for="birthdate">Birth Date</label>
-          <input type="date" class="form-control" id="birthdate" placeholder="Enter Birth Date" required>
-          <div class="invalid-feedback">
-            Please enter your shipping address.
+          <input formControlName="birthdate" type="date" class="form-control" id="birthdate" placeholder="Enter Birth Date"
+                 [ngClass]="{'is-invalid': form.controls.birthdate.invalid && (form.controls.birthdate.dirty || form.controls.birthdate.touched) }">
+          <div class="invalid-feedback" *ngIf="form.controls.birthdate.invalid && (form.controls.birthdate.dirty || form.controls.birthdate.touched)">
+            <span *ngIf="form.controls.birthdate.errors?.['required']">
+              Birth Date is required.
+            </span>
+            <span *ngIf="form.controls.birthdate.errors?.['AgeMoreThanThirteen']">
+              Age must be more than 13 to continue.
+            </span>
+            <span *ngIf="form.controls.birthdate.errors?.['Date']">
+              Date entered is invalid.
+            </span>
           </div>
         </div>
 

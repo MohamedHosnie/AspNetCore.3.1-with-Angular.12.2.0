@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Emitters } from '../../emitters/emitters';
-import { AuthServiceProxy, Exception, GetLoggedInUserDto, LoginDto } from '../../service-proxies/service-proxies';
+import { AuthServiceProxy, Exception, GetLoggedInUserDto, LoginDto, UserDto } from '../../service-proxies/service-proxies';
 import { SessionService } from '../session/session.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  
   private _isAuthenticated = false;
   private token!: string;
 
@@ -83,6 +84,27 @@ export class AuthService {
   public logout(): void {
     this.removeToken();
     Emitters.authEmitter.emit(false);
+  }
+
+  register(user: UserDto) {
+    return new Promise<number>((resolve, reject) => {
+      this.authServiceProxy.register(user).subscribe((userId: number) => {
+        if (userId >= 0) {
+          this.login(new LoginDto({
+            username: user.username,
+            password: user.password
+          }));
+        } else {
+          if (userId == -1) {
+            //username is not available
+            console.error("Username already exists");
+          }
+          reject(userId);
+        }
+      }, (error) => {
+        reject(error);
+      });
+    });
   }
 
 }
