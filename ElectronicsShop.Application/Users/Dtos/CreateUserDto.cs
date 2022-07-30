@@ -1,16 +1,13 @@
-﻿using ElectronicsShop.Shared.Enums;
-using ElectronicsShop.Core.Orders;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace ElectronicsShop.Core.Users
+namespace ElectronicsShop.Application.Users.Dtos
 {
-    [Table("User")]
-    public class User : Entity<int>
+    public class CreateUserDto : IValidatableObject
     {
+        public int Id { get; set; }
         [Required]
         [StringLength(Shared.Consts.User.Username_MaximumLength, MinimumLength = Shared.Consts.User.Username_MinimumLength)]
         [DataType(DataType.Text)]
@@ -24,7 +21,7 @@ namespace ElectronicsShop.Core.Users
         [DataType(DataType.Text)]
         public string FullAddress { get; set; }
         [Required]
-        [StringLength(Shared.Consts.User.Email_MaximumLength, MinimumLength = Shared.Consts.User.Email_MaximumLength)]
+        [StringLength(Shared.Consts.User.Email_MaximumLength, MinimumLength = Shared.Consts.User.Email_MinimumLength)]
         [RegularExpression(Shared.Consts.User.Email_Regex)]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
@@ -37,10 +34,19 @@ namespace ElectronicsShop.Core.Users
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
         [Required]
+        [StringLength(Shared.Consts.User.Password_MaximumLength, MinimumLength = Shared.Consts.User.Password_MinimumLength)]
         [DataType(DataType.Password)]
-        public string PasswordHash { get; set; }
-        [Required]
-        public Role Role { get; set; }
-        public IList<Order> Orders { get; set; }
+        public string Password { get; set; }
+        public string Role { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            List<ValidationResult> errors = new List<ValidationResult>();
+            if (BirthDate > DateTime.Now.AddYears(-13))
+            {
+                errors.Add(new ValidationResult($"{nameof(BirthDate)} error! age must be older than 13.", new List<string> { nameof(BirthDate) }));
+            }
+            return errors;
+        }
     }
 }

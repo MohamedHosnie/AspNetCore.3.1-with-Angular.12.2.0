@@ -31,15 +31,15 @@ namespace ElectronicsShop.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<int> Create(ProductDto product)
+        public async Task<int> Create(CreateProductDto product)
         {
-            _productAppService.CreateNewProduct(new Product { 
-                Name = product.Name,
-                CategoryId = product.CategoryId,
-                Description = product.Description,
-                Price = product.Price,
-                PriceOfTwo = product.PriceOfTwo
-            });
+            return await _productAppService.CreateNewProduct(product);
+        }
+
+        [HttpGet]
+        public async Task<IList<ProductDto>> GetAll()
+        {
+            return await _productAppService.GetAllProducts();
         }
     }
 }

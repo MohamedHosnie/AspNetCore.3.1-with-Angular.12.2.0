@@ -1,5 +1,5 @@
 ﻿using ElectronicsShop.Core.Products;
-using ElectronicsShop.Core.Repositories;
+using ElectronicsShop.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,14 +10,26 @@ namespace ElectronicsShop.Domain.Products
     public class ProductDomainService : ElectronicsShopDomainServiceBase, IProductDomainService
     {
         public readonly IRepository<Product, int> _productRepository;
-        public ProductDomainService()
+        public ProductDomainService(IRepository<Product, int> productRepository)
         {
-
+            _productRepository = productRepository;
         }
 
-        public Task<int> CreateNewProduct(Product product)
+        public async Task<int> CreateNewProduct(Product product)
         {
-            throw new NotImplementedException();
+            if (product.Price < 0 || product.PriceOfTwo < 0) throw new Exception("Price cannot be negative");
+            return await _productRepository.AddAsync(product);
         }
+
+        float IProductDomainService.CalculateDiscount(float price, float discount)
+        {
+            return price - (price * (discount/(float)100.0));
+        }
+
+        float IProductDomainService.CalculateDiscountOnTwo(float price, float discountOnTwo)
+        {
+            return (price * (float)2.0) - ((price * (float)2.0) * (discountOnTwo / (float)100.0));
+        }
+
     }
 }

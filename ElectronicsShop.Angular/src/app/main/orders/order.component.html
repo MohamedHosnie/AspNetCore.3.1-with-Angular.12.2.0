@@ -1,1 +1,33 @@
-<p>order works!</p>
+<div class="container">
+  <div class="py-3 text-center">
+    <h2>Manage Orders</h2>
+  </div>
+  <div class="py-3 text-center">
+  </div>
+  <div class="clearfix mb-4"></div>
+  <div class="mb-3 text-center">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Customer</th>
+          <th scope="col">Product</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Total Price</th>
+          <th scope="col">Fulfilled</th>
+          <th scope="col">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of collection | paginate : config">
+          <td>{{item.customer}}</td>
+          <td>{{item.product}}</td>
+          <td>{{item.quantity}}</td>
+          <td>{{item.totalPrice}}</td>
+          <td>{{item.fulfilled}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
+</div>

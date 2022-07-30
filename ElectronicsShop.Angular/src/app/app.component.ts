@@ -12,5 +12,5 @@ export class AppComponent {
     router.initialNavigation();
   }
 
-  title = 'ElectronicsShop';
+  title = 'Electronics Shop';
 }

@@ -1,14 +1,11 @@
-﻿using ElectronicsShop.Core.Orders;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace ElectronicsShop.Core.Products
+namespace ElectronicsShop.Application.Products.Dtos
 {
-    [Table("Product")]
-    public class Product : Entity<int>
+    public class CreateProductDto
     {
         [Required]
         [DataType(DataType.Text)]
@@ -21,11 +18,9 @@ namespace ElectronicsShop.Core.Products
         [Required]
         [DataType(DataType.Currency)]
         public float Price { get; set; }
-        [DataType(DataType.Currency)]
-        public float? PriceOfTwo { get; set; }
+        public float? Discount { get; set; }
+        public float? DiscountOnTwo { get; set; }
         [Required]
         public short CategoryId { get; set; }
-        public Category Category { get; set; }
-        public IList<Order> Orders { get; set; }
     }
 }

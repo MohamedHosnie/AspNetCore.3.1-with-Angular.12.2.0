@@ -1,6 +1,6 @@
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-  <a class="navbar-brand" href="#">{{applicationName}}</a>
+  <a class="navbar-brand mr-5" href="#">{{applicationName}}</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -9,14 +9,16 @@
       <li class="nav-item" [routerLink]="'/'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <a class="nav-link" [routerLink]="'/'">Products</a>
       </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
       <li class="nav-item" [routerLink]="'/product'" routerLinkActive="active" *ngIf="isAdmin">
-        <a class="nav-link" [routerLink]="'/product'">Manage Products</a>
+        <a class="nav-link" [routerLink]="'/product'"><span class="text-danger">Manage Products</span></a>
       </li>
-      <li class="nav-item" [routerLink]="'/order'" routerLinkActive="active" *ngIf="isAdmin">
-        <a class="nav-link" [routerLink]="'/order'">Manage Orders</a>
+      <li class="nav-item" [routerLink]="'/order'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *ngIf="isAdmin">
+        <a class="nav-link" [routerLink]="'/order'"><span class="text-danger">Manage Orders</span></a>
       </li>
     </ul>
-    <span class="navbar-text">
+    <span class="navbar-text ml-5">
       <a [routerLink]="'account/login'" *ngIf="isAuthenticated == false">Login</a>
       <span *ngIf="isAuthenticated == true">{{username}}</span> |
       <a [routerLink]="'account/register'" *ngIf="isAuthenticated == false">Register</a>

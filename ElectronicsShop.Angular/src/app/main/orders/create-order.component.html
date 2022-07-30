@@ -1,0 +1,70 @@
+<div class="container" *ngIf="product != null">
+  <div class="py-3 px-5 text-center">
+    <h2>Make Order</h2>
+    <button type="button" class="back-btn btn btn-xl btn-white" (click)="back()"><</button>
+    <div class="clearfix"></div>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="col-md-8 order-md-1">
+      <form class="create-product-form" [formGroup]="form" (submit)="submit()">
+
+        <div class="mb-3">
+          <label>Product</label>
+          <h5>{{product.name}}</h5>
+        </div>
+
+        <div class="mb-3">
+          <label>Description</label>
+          <h6>{{product.description}}</h6>
+        </div>
+
+        <div class="mb-3">
+          <label>Price</label>
+          <h6>${{product.price.toFixed(2)}}</h6>
+        </div>
+
+        <div class="mb-3" *ngIf="product.priceOfTwo != null">
+          <label>Price for two</label>
+          <h5>${{product.priceOfTwo.toFixed(2)}}</h5>
+        </div>
+
+        <div class="mb-3">
+          <label>Category</label>
+          <h6>{{product.category}}</h6>
+        </div>
+        <hr />
+        <input formControlName="productId" type="hidden" name="productId" value="{{product.id}}" />
+        <div class="mb-3">
+          <label for="quantity">Quantity</label>
+          <input formControlName="quantity" type="number" class="form-control" id="quantity" placeholder="Enter Description" value="1" (change)="quantityChange()"
+                 [ngClass]="{'is-invalid': form.controls.quantity.invalid && (form.controls.quantity.dirty || form.controls.quantity.touched) }">
+          <div class="invalid-feedback" *ngIf="form.controls.quantity.invalid && (form.controls.quantity.dirty || form.controls.quantity.touched)">
+            <span *ngIf="form.controls.quantity.errors?.['required']">
+              Quantity is Required.
+            </span>
+            <span *ngIf="form.controls.quantity.errors?.['min']">
+              Quantity cannot be less than 1.
+            </span>
+          </div>
+        </div>
+
+        <hr />
+        <div class="mb-3" *ngIf="product.priceOfTwo != null">
+          <h5>${{product.priceOfTwo.toFixed(2)}} × {{quantityOver2}}</h5>
+        </div>
+        <div class="mb-3" *ngIf="product.priceOfTwo != null">
+          <h5>${{product.price.toFixed(2)}} × {{quantityMod2}}</h5>
+        </div>
+        <div class="mb-3" *ngIf="product.priceOfTwo == null">
+          <h5>${{product.price.toFixed(2)}} × {{quantity}}</h5>
+        </div>
+        <hr />
+        <div class="mb-3">
+          <label>Total</label>
+          <h3>${{totalPrice.toFixed(2)}}</h3>
+        </div>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Buy</button>
+      </form>
+    </div>
+  </div>
+</div>

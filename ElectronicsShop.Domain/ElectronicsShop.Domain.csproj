@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ElectronicsShop.EntityFrameworkCore\ElectronicsShop.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\ElectronicsShop.Core\ElectronicsShop.Core.csproj" />
     <ProjectReference Include="..\ElectronicsShop.Shared\ElectronicsShop.Shared.csproj" />
   </ItemGroup>
 

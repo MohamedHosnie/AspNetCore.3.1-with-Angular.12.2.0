@@ -37,18 +37,9 @@ namespace ElectronicsShop.EntityFrameworkCore.Repositories
             return entity;
         }
 
-        public TEntity GetIncluding(TPrimaryKey entityId, string navigationPropertyPath)
+        public IQueryable<TEntity> GetIQueryable(TPrimaryKey entityId)
         {
-            TEntity entity = getDbSet().Where(e => e.Id.Equals(entityId)).Include(navigationPropertyPath).FirstOrDefault();
-            if (entity == null) throw new Exception("Entity with the given ID is not found!");
-            return entity;
-        }
-
-        public async Task<TEntity> GetIncludingAsync(TPrimaryKey entityId, string navigationPropertyPath)
-        {
-            TEntity entity = await getDbSet().Where(e => e.Id.Equals(entityId)).Include(navigationPropertyPath).FirstOrDefaultAsync();
-            if (entity == null) throw new Exception("Entity with the given ID is not found!");
-            return entity;
+            return getDbSet().Where(e => e.Id.Equals(entityId));
         }
 
         public IList<TEntity> GetAll()
@@ -61,14 +52,9 @@ namespace ElectronicsShop.EntityFrameworkCore.Repositories
             return await getDbSet().ToListAsync();
         }
 
-        public IList<TEntity> GetAllIncluding(string navigationPropertyPath)
+        public IQueryable<TEntity> GetAllIQueryable()
         {
-            return getDbSet().Include(navigationPropertyPath).ToList();
-        }
-
-        public async Task<IList<TEntity>> GetAllIncludingAsync(string navigationPropertyPath)
-        {
-            return await getDbSet().Include(navigationPropertyPath).ToListAsync();
+            return getDbSet();
         }
 
         public TPrimaryKey Add(TEntity entity)
@@ -147,5 +133,6 @@ namespace ElectronicsShop.EntityFrameworkCore.Repositories
             DbSet<TEntity> dbSet = _dbContext.Set<TEntity>(typeName);
             return dbSet;
         }
+
     }
 }

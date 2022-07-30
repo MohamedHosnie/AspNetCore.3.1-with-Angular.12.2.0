@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Emitters } from '../../emitters/emitters';
-import { AuthServiceProxy, Exception, GetLoggedInUserDto, LoginDto, UserDto } from '../../service-proxies/service-proxies';
+import { AuthServiceProxy, CreateUserDto, Exception, LoginDto, UserDto } from '../../service-proxies/service-proxies';
 import { SessionService } from '../session/session.service';
 
 @Injectable({
@@ -12,33 +13,34 @@ export class AuthService {
   private token!: string;
 
   constructor(
-    private authServiceProxy: AuthServiceProxy
+    private authServiceProxy: AuthServiceProxy,
+    private toastr: ToastrService
   ) { }
 
   get isAuthenticated() {
     return this._isAuthenticated && this.token != null;
   }
 
-  public getToken(): string {
+  getToken(): string {
     if (this.token == null) {
       this.token = localStorage.getItem("jwt-auth-token") as string;
     }
     return this.token;
   }
 
-  public setToken(token: string): void {
+  setToken(token: string): void {
     this.token = token;
     localStorage.setItem("jwt-auth-token", token);
   }
 
-  public removeToken(): void {
+  removeToken(): void {
     this.token = "";
     localStorage.removeItem("jwt-auth-token");
   }
 
-  public getLoggedInUser(): Promise<GetLoggedInUserDto> {
-    return new Promise<GetLoggedInUserDto>((resolve, reject) => {
-      this.authServiceProxy.getLoggedInUser().subscribe((user: GetLoggedInUserDto) => {
+  getLoggedInUser(): Promise<UserDto> {
+    return new Promise<UserDto>((resolve, reject) => {
+      this.authServiceProxy.getLoggedInUser().subscribe((user: UserDto) => {
         if (user.id != null) {
           this._isAuthenticated = true;
           resolve(user);
@@ -58,13 +60,14 @@ export class AuthService {
     });
   }
 
-  public login(user: LoginDto): Promise<string> {
+  login(user: LoginDto): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       this.authServiceProxy.login(user).subscribe((token: string) => {
         if (token.length > 0) {
           this.setToken(token);
           this._isAuthenticated = true;
           resolve(token);
+          this.toastr.success("Logged in successfully!!", "Success!!");
           Emitters.authEmitter.emit(true);
         } else {
           this.removeToken();
@@ -72,7 +75,8 @@ export class AuthService {
           reject(token);
           Emitters.authEmitter.emit(false);
         }
-      }, (error) => {
+      }, (error: Exception) => {
+        this.toastr.error(error.response, "Something is wrong");
         this.removeToken();
         this._isAuthenticated = false;
         reject(error);
@@ -81,12 +85,12 @@ export class AuthService {
     });
   }
 
-  public logout(): void {
+  logout(): void {
     this.removeToken();
-    Emitters.authEmitter.emit(false);
+    Emitters.unauthEmitter.emit(false);
   }
 
-  register(user: UserDto) {
+  register(user: CreateUserDto) {
     return new Promise<number>((resolve, reject) => {
       this.authServiceProxy.register(user).subscribe((userId: number) => {
         if (userId >= 0) {
@@ -97,11 +101,12 @@ export class AuthService {
         } else {
           if (userId == -1) {
             //username is not available
-            console.error("Username already exists");
+            this.toastr.error("Username already exists", "Something is wrong");
           }
           reject(userId);
         }
-      }, (error) => {
+      }, (error: Exception) => {
+        this.toastr.error(error.response, "Something is wrong");
         reject(error);
       });
     });

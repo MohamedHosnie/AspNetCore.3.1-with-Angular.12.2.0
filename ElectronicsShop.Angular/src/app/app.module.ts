@@ -14,9 +14,10 @@ import { AppConsts } from './shared/app-consts';
 import { environment } from '../environments/environment';
 import { XmlHttpRequestHelper } from './shared/helpers/XmlHttpRequestHelper';
 import { SessionService } from './shared/services/session/session.service';
-import { API_BASE_URL, GetLoggedInUserDto } from './shared/service-proxies/service-proxies';
+import { API_BASE_URL, UserDto } from './shared/service-proxies/service-proxies';
 import { Router } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrModule } from 'ngx-toastr';
 
 export function appInitializerFactory(injector: Injector, platformLocation: PlatformLocation, router: Router) {
 
@@ -25,7 +26,6 @@ export function appInitializerFactory(injector: Injector, platformLocation: Plat
     return new Promise<boolean>((resolve, reject) => {
       AppConsts.appBaseHref = getBaseHref(platformLocation);
       let appBaseUrl = getDocumentOrigin() + AppConsts.appBaseHref;
-      console.log(appBaseUrl);
 
       AppConsts.appBaseUrl = appBaseUrl;
 
@@ -35,10 +35,9 @@ export function appInitializerFactory(injector: Injector, platformLocation: Plat
       XmlHttpRequestHelper.ajax(type, url, null, null, (result: any) => {
 
         AppConsts.remoteServiceBaseUrl = result.remoteServiceBaseUrl;
-        console.log(result.remoteServiceBaseUrl);
 
         let sessionService: SessionService = injector.get(SessionService);
-        sessionService.init().then((user: GetLoggedInUserDto) => {
+        sessionService.init().then((user: UserDto) => {
           // Do something with the user here
 
           resolve(true);
@@ -85,7 +84,8 @@ export function getRemoteServiceBaseUrl() {
     UtilitiesModule,
     BrowserModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     { provide: API_BASE_URL, useFactory: getRemoteServiceBaseUrl },

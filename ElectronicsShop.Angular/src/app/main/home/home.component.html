@@ -1,1 +1,30 @@
-<p>home works!</p>
+<div class="container">
+  <div class="py-3 text-center">
+    <h2>Products</h2>
+  </div>
+  <div class="py-3 px-2 text-center">
+    <select class="custom-select d-block" (change)="categoryChange()" [(ngModel)]="category">
+      <option value="-1" selected>All Categories</option>
+      <option *ngFor="let category of categories;" [value]="category.id">{{category.name}}</option>
+    </select>
+  </div>
+  <div class="clearfix mb-4"></div>
+  <div class="mb-3 text-center row">
+    <div *ngFor="let item of filteredCollection | paginate : config" class="col-md-4">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal card-header-text">{{item.name}}</h4>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title pricing-card-title" *ngIf="item.priceOfTwo != null">${{item.priceOfTwo.toFixed(2)}} <small class="text-muted">for Two</small></h2>
+          <h3 class="card-title pricing-card-title">${{item.price.toFixed(2)}} <small class="text-muted" *ngIf="item.priceOfTwo != null">for One</small></h3>
+          <span>{{item.description}}</span>
+          <button *ngIf="isAuthenticated == true" type="button" class="order-btn btn btn-lg btn-block btn-outline-primary mt-3" (click)="order(item)">Order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
+</div>
+
+

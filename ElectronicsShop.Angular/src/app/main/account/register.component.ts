@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { CustomValidators } from '../../shared/helpers/custom-validators';
 import { Exception } from '../../shared/service-proxies/service-proxies';
 import { AuthService } from '../../shared/services/auth/auth.service';
@@ -15,8 +16,11 @@ export class RegisterComponent implements OnInit {
   duplicateUsername: boolean = false;
 
   constructor(
+    private titleService: Title,
     private authService: AuthService
-  ) { }
+  ) {
+    this.titleService.setTitle("Register");
+  }
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -61,8 +65,8 @@ export class RegisterComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.form);
     if (this.form.valid === false) {
+      this.form.markAllAsTouched()
       return;
     }
 

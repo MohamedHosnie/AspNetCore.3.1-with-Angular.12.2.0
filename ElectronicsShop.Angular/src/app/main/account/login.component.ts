@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { AuthService } from '../../shared/services/auth/auth.service';
 
 @Component({
@@ -12,9 +13,12 @@ export class LoginComponent implements OnInit {
   form!: FormGroup;
 
   constructor(
+    private titleService: Title,
     private formBuilder: FormBuilder,
     private authService: AuthService
-  ) { }
+  ) {
+    this.titleService.setTitle("Login");
+  }
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -33,6 +37,7 @@ export class LoginComponent implements OnInit {
 
   submit() {
     if (this.form.valid === false) {
+      this.form.markAllAsTouched()
       return;
     }
 

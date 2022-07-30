@@ -6,11 +6,11 @@ using ElectronicsShop.Core.Orders;
 using ElectronicsShop.Core.Products;
 using ElectronicsShop.Domain.Repositories;
 using ElectronicsShop.Core.Users;
-using ElectronicsShop.EntityFrameworkCore.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ElectronicsShop.EntityFrameworkCore.Repositories;
 
 namespace ElectronicsShop.Application
 {

@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ElectronicsShop.Application\ElectronicsShop.Application.csproj" />
     <ProjectReference Include="..\ElectronicsShop.EntityFrameworkCore\ElectronicsShop.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\ElectronicsShop.Shared\ElectronicsShop.Shared.csproj" />
   </ItemGroup>
 
 

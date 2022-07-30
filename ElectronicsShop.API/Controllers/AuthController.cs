@@ -27,7 +27,7 @@ namespace ElectronicsShop.Api.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<int> Register(UserDto user)
+        public async Task<int> Register(CreateUserDto user)
         {
             var unique = _userAppService.UsernameIsUnique(user.Username);
 
@@ -65,15 +65,15 @@ namespace ElectronicsShop.Api.Controllers
         }
 
         [HttpGet("GetLoggedInUser"), Authorize]
-        public async Task<GetLoggedInUserDto> GetLoggedInUser()
+        public async Task<UserDto> GetLoggedInUser()
         {
             var loggedInUser = await _authAppService.GetLoggedInUser();
             if (loggedInUser == null)
             {
-                return await Task.FromResult(null as GetLoggedInUserDto);
+                return await Task.FromResult(null as UserDto);
             }
 
-            return new GetLoggedInUserDto
+            return new UserDto
             {
                 Id = loggedInUser.Id,
                 Username = loggedInUser.Username,

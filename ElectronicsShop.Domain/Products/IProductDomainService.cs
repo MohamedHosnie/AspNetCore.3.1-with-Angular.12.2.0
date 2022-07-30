@@ -9,5 +9,7 @@ namespace ElectronicsShop.Domain.Products
     public interface IProductDomainService
     {
         public Task<int> CreateNewProduct(Product product);
+        public float CalculateDiscount(float price, float discount);
+        public float CalculateDiscountOnTwo(float price, float discountOnTwo);
     }
 }

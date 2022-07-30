@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicsShop.Core.Repositories
+namespace ElectronicsShop.Domain.Repositories
 {
     public interface IRepository<TEntity, TPrimaryKey>
     {
         TEntity Get(TPrimaryKey entityId);
         Task<TEntity> GetAsync(TPrimaryKey entityId);
-        TEntity GetIncluding(TPrimaryKey entityId, string navigationPropertyPath);
-        Task<TEntity> GetIncludingAsync(TPrimaryKey entityId, string navigationPropertyPath);
+        IQueryable<TEntity> GetIQueryable(TPrimaryKey entityId);
         IList<TEntity> GetAll();
         Task<IList<TEntity>> GetAllAsync();
-        IList<TEntity> GetAllIncluding(string navigationPropertyPath);
-        Task<IList<TEntity>> GetAllIncludingAsync(string navigationPropertyPath);
+        IQueryable<TEntity> GetAllIQueryable();
         TPrimaryKey Add(TEntity entity);
         Task<TPrimaryKey> AddAsync(TEntity entity);
         void Update(TPrimaryKey entityId, TEntity entity);

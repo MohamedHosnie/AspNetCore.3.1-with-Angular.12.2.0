@@ -3,3 +3,19 @@ body {
   padding-top: 4.5rem;
   padding-bottom: 4.5rem;
 }
+
+.container {
+  padding-bottom: 4.5rem;
+}
+
+.ngx-pagination {
+    text-align: end;
+}
+
+  .ngx-pagination .current {
+    background: #007bff !important;
+  }
+
+  .ngx-pagination li, .ngx-pagination a {
+    border-radius: 0.25em !important;
+  }

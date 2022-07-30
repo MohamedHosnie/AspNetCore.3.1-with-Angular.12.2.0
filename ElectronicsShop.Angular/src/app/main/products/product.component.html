@@ -1,1 +1,40 @@
-<p>product works!</p>
+<div class="container">
+  <div class="py-3 text-center">
+    <h2>Manage Products</h2>
+  </div>
+  <div class="py-3 text-center">
+    <button type="button" class="add-btn btn btn-primary" [routerLink]="'create'">Add</button>
+    <select class="custom-select d-block" (change)="categoryChange()" [(ngModel)]="category">
+      <option value="-1" selected>All Categories</option>
+      <option *ngFor="let category of categories;" [value]="category.id">{{category.name}}</option>
+    </select>
+  </div>
+  <div class="clearfix mb-4"></div>
+  <div class="mb-3 text-center">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Price</th>
+          <th scope="col">Price of Two</th>
+          <th scope="col">Category</th>
+          <th scope="col">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of filteredCollection | paginate : config">
+          <td>{{item.name}}</td>
+          <td>{{item.description}}</td>
+          <td>{{item.price}}</td>
+          <td>{{item.priceOfTwo}}</td>
+          <td>{{item.category}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
+</div>
+
+

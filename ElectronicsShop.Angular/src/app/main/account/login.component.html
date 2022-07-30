@@ -1,29 +1,31 @@
-<form class="form-signin" [formGroup]="form" (submit)="submit()">
-  <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+<div class="container">
+  <form class="form-signin" [formGroup]="form" (submit)="submit()">
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 
-  <input formControlName="username" type="text" id="username" class="form-control" placeholder="Username"
-         [ngClass]="{'is-invalid': form.controls.username.invalid && (form.controls.username.dirty || form.controls.username.touched) }">
+    <input formControlName="username" type="text" id="username" class="form-control" placeholder="Username"
+           [ngClass]="{'is-invalid': form.controls.username.invalid && (form.controls.username.dirty || form.controls.username.touched) }">
 
-  <div class="invalid-feedback" *ngIf="form.controls.username.invalid && (form.controls.username.dirty || form.controls.username.touched)">
-    <span *ngIf="form.controls.username.errors?.['required']">
-      Username is required.
-    </span>
-    <span *ngIf="form.controls.username.errors?.['minlength'] || form.controls.username.errors?.['maxlength']">
-      Username must be between 5 and 15 in length.
-    </span>
-  </div>
+    <div class="invalid-feedback" *ngIf="form.controls.username.invalid && (form.controls.username.dirty || form.controls.username.touched)">
+      <span *ngIf="form.controls.username.errors?.['required']">
+        Username is required.
+      </span>
+      <span *ngIf="form.controls.username.errors?.['minlength'] || form.controls.username.errors?.['maxlength']">
+        Username must be between 5 and 15 in length.
+      </span>
+    </div>
 
-  <input formControlName="password" type="password" id="password" class="form-control" placeholder="Password"
-         [ngClass]="{'is-invalid': form.controls.password.invalid && (form.controls.password.dirty || form.controls.password.touched) }">
+    <input formControlName="password" type="password" id="password" class="form-control" placeholder="Password"
+           [ngClass]="{'is-invalid': form.controls.password.invalid && (form.controls.password.dirty || form.controls.password.touched) }">
 
-  <div class="invalid-feedback" *ngIf="form.controls.password.invalid && (form.controls.password.dirty || form.controls.password.touched)">
-    <span *ngIf="form.controls.password.errors?.['required']">
-      Password is required.
-    </span>
-    <span *ngIf="form.controls.password.errors?.['minlength'] || form.controls.password.errors?.['maxlength']">
-      Password must be between 8 and 20 in length.
-    </span>
-  </div>
+    <div class="invalid-feedback" *ngIf="form.controls.password.invalid && (form.controls.password.dirty || form.controls.password.touched)">
+      <span *ngIf="form.controls.password.errors?.['required']">
+        Password is required.
+      </span>
+      <span *ngIf="form.controls.password.errors?.['minlength'] || form.controls.password.errors?.['maxlength']">
+        Password must be between 8 and 20 in length.
+      </span>
+    </div>
 
-  <button class="form-control btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-</form>
+    <button class="form-control btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  </form>
+</div>

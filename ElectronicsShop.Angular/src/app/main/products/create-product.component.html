@@ -1,1 +1,96 @@
-<p>create-product works!</p>
+<div class="container">
+  <div class="py-3 px-5 text-center">
+    <h2>Add Product</h2>
+    <button type="button" class="back-btn btn btn-xl btn-white" (click)="back()"><</button>
+    <div class="clearfix"></div>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="col-md-8 order-md-1">
+      <form class="create-product-form" [formGroup]="form" (submit)="submit()">
+
+        <div class="mb-3">
+          <label for="name">Name</label>
+          <input formControlName="name" type="text" class="form-control" id="name" placeholder="Enter Name"
+                 [ngClass]="{'is-invalid': form.controls.name.invalid && (form.controls.name.dirty || form.controls.name.touched) }">
+          <div class="invalid-feedback" *ngIf="form.controls.name.invalid && (form.controls.name.dirty || form.controls.name.touched)">
+            <span *ngIf="form.controls.name.errors?.['required']">
+              Name is required.
+            </span>
+            <span *ngIf="form.controls.name.errors?.['minlength'] || form.controls.name.errors?.['maxlength']">
+              Name must be between 5 and 40 in length.
+            </span>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="description">Description</label>
+          <input formControlName="description" type="text" class="form-control" id="description" placeholder="Enter Description"
+                 [ngClass]="{'is-invalid': form.controls.description.invalid && (form.controls.description.dirty || form.controls.description.touched) }">
+          <div class="invalid-feedback" *ngIf="form.controls.description.invalid && (form.controls.description.dirty || form.controls.description.touched)">
+            <span *ngIf="form.controls.description.errors?.['required']">
+              Description is required.
+            </span>
+            <span *ngIf="form.controls.description.errors?.['minlength'] || form.controls.description.errors?.['maxlength']">
+              Description must be between 5 and 50 in length.
+            </span>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="price">Price</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">$</span>
+            </div>
+            <input formControlName="price" type="number" class="form-control" id="price" placeholder="Enter Price"
+                   [ngClass]="{'is-invalid': form.controls.price.invalid && (form.controls.price.dirty || form.controls.price.touched) }">
+            <div class="invalid-feedback" *ngIf="form.controls.price.invalid && (form.controls.price.dirty || form.controls.price.touched)">
+              <span *ngIf="form.controls.price.errors?.['required']">
+                Price is required.
+              </span>
+              <span *ngIf="form.controls.price.errors?.['min']">
+                Price cannot be less than 0
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="discount">Discount on Single Item</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">%</span>
+            </div>
+            <input formControlName="discount" type="number" class="form-control" id="discount" placeholder="Enter Discount Percentage">
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="discountontwo">Discount on Two Items</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">%</span>
+            </div>
+            <input formControlName="discountontwo" type="number" class="form-control" id="discountontwo" placeholder="Enter Discount Percentage">
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="categoryid">Category</label>
+          <select formControlName="categoryid" class="custom-select d-block w-100" id="categoryid"
+                  [ngClass]="{'is-invalid': form.controls.categoryid.invalid && (form.controls.categoryid.dirty || form.controls.categoryid.touched) }">
+            <option value="" selected disabled>Select Category...</option>
+            <option *ngFor="let category of categories;" [value]="category.id">{{category.name}}</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="form.controls.categoryid.invalid && (form.controls.categoryid.dirty || form.controls.categoryid.touched)">
+            <span *ngIf="form.controls.categoryid.errors?.['required']">
+              Category is required.
+            </span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Add Product</button>
+      </form>
+    </div>
+  </div>
+</div>

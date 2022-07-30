@@ -1,4 +1,5 @@
-﻿using ElectronicsShop.Core.Products;
+﻿using ElectronicsShop.Application.Products.Dtos;
+using ElectronicsShop.Core.Products;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,7 @@ namespace ElectronicsShop.Application.Products
     public interface IProductAppService
     {
         public Task<IList<Category>> getAllCategories();
-        public Task<int> CreateNewProduct(Product product);
+        public Task<int> CreateNewProduct(CreateProductDto product);
+        Task<IList<ProductDto>> GetAllProducts();
     }
 }

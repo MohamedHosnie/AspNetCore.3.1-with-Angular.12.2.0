@@ -1,0 +1,22 @@
+.card {
+  padding: 0;
+  margin-right: .5em;
+  margin-left: .5em;
+}
+
+.card-header-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.custom-select {
+  float: left;
+  width: 12rem;
+}
+
+.order-btn {
+    
+}
+
+

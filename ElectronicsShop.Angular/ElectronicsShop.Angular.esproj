@@ -6,4 +6,8 @@
     <StartupCommand>npm start</StartupCommand>
     <JavaScriptTestFramework>Jasmine</JavaScriptTestFramework>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="src\app\shared\services\orders\" />
+    <Folder Include="src\app\shared\services\products\" />
+  </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Role } from '../../shared/app-enums';
 import { Emitters } from '../../shared/emitters/emitters';
-import { GetLoggedInUserDto } from '../../shared/service-proxies/service-proxies';
+import { UserDto } from '../../shared/service-proxies/service-proxies';
 import { AuthService } from '../../shared/services/auth/auth.service';
 import { SessionService } from '../../shared/services/session/session.service';
 
@@ -24,7 +24,7 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    let user = this.sessionService.user as GetLoggedInUserDto;
+    let user = this.sessionService.user as UserDto;
     if (user != null) {
       this.isAuthenticated = true;
       this.username = user.username as string;

@@ -8,6 +8,7 @@ import { RegisterComponent } from './register.component';
 
 
 const routes: Routes = [
+  { path: '', redirectTo: '/account/login', pathMatch: 'full' },
   {
     path: 'account/login',
     canActivate: [UnauthGuard],
