@@ -1,9 +1,9 @@
-﻿using ElectronicsShop.Web.Models;
-using ElectronicsShop.Web.Shared;
+﻿using ElectronicsShop.Mvc.Models;
+using ElectronicsShop.Mvc.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace ElectronicsShop.Web.Controllers
+namespace ElectronicsShop.Mvc.Controllers
 {
     public class AccountController : BaseController
     {

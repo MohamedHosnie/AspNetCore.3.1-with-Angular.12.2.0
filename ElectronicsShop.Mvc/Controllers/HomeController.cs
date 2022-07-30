@@ -1,4 +1,4 @@
-﻿using ElectronicsShop.Web.Models;
+﻿using ElectronicsShop.Mvc.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ElectronicsShop.Web.Controllers
+namespace ElectronicsShop.Mvc.Controllers
 {
     public class HomeController : BaseController
     {

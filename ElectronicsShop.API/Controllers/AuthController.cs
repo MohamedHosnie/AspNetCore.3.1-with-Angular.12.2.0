@@ -10,11 +10,11 @@ using ElectronicsShop.Application.Users;
 using ElectronicsShop.Application.Auth.Dtos;
 using System;
 
-namespace ElectronicsShop.API.Controllers
+namespace ElectronicsShop.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ApiBaseController
+    public class AuthController : ApiControllerBase
     {
         public readonly IAuthAppService _authAppService;
         public readonly IUserAppService _userAppService;

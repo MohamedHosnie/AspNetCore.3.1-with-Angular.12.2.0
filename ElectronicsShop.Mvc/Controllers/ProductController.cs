@@ -1,8 +1,8 @@
 ﻿using ElectronicsShop.Shared.Enums;
-using ElectronicsShop.Web.Shared;
+using ElectronicsShop.Mvc.Shared;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ElectronicsShop.Web.Controllers
+namespace ElectronicsShop.Mvc.Controllers
 {
     public class ProductController : BaseController
     {

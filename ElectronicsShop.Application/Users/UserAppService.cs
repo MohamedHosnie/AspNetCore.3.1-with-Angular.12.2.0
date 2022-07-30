@@ -1,4 +1,4 @@
-﻿using ElectronicsShop.Core.Repositories;
+﻿using ElectronicsShop.Domain.Repositories;
 using ElectronicsShop.Core.Users;
 using System;
 using System.Collections.Generic;

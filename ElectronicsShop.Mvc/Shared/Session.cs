@@ -1,9 +1,9 @@
-﻿using ElectronicsShop.Web.Models;
+﻿using ElectronicsShop.Mvc.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 
-namespace ElectronicsShop.Web.Shared
+namespace ElectronicsShop.Mvc.Shared
 {
     public class Session : ISession
     {

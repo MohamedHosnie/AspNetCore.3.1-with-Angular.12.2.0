@@ -13,7 +13,7 @@ using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using ElectronicsShop.Shared.Enums;
 using Microsoft.AspNetCore.Http;
-using ElectronicsShop.Core.Repositories;
+using ElectronicsShop.Domain.Repositories;
 
 namespace ElectronicsShop.Application.Auth
 {

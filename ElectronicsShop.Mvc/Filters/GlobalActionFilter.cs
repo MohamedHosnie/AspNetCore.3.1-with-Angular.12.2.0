@@ -1,10 +1,10 @@
-﻿using ElectronicsShop.Web.Shared;
+﻿using ElectronicsShop.Mvc.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using System;
 
-namespace ElectronicsShop.Web.Filters
+namespace ElectronicsShop.Mvc.Filters
 {
     public class GlobalActionFilter : IActionFilter
     {

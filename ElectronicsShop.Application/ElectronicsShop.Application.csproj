@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <Folder Include="Orders\Dtos\" />
-    <Folder Include="Products\Dtos\" />
   </ItemGroup>
 
 </Project>

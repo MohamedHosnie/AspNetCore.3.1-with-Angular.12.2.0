@@ -1,6 +1,6 @@
 ﻿
 
-namespace ElectronicsShop.Web.Models
+namespace ElectronicsShop.Mvc.Models
 {
     public class User
     {

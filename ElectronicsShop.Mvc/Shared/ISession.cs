@@ -1,6 +1,6 @@
-﻿using ElectronicsShop.Web.Models;
+﻿using ElectronicsShop.Mvc.Models;
 
-namespace ElectronicsShop.Web.Shared
+namespace ElectronicsShop.Mvc.Shared
 {
     public interface ISession
     {

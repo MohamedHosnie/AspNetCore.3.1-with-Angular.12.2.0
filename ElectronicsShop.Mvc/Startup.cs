@@ -1,5 +1,5 @@
-using ElectronicsShop.Web.Filters;
-using ElectronicsShop.Web.Shared;
+using ElectronicsShop.Mvc.Filters;
+using ElectronicsShop.Mvc.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ElectronicsShop.Web
+namespace ElectronicsShop.Mvc
 {
     public class Startup
     {

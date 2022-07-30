@@ -1,5 +1,5 @@
 ﻿using ElectronicsShop.Core;
-using ElectronicsShop.Core.Repositories;
+using ElectronicsShop.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;

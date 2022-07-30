@@ -2,7 +2,9 @@
 using ElectronicsShop.Application.Orders;
 using ElectronicsShop.Application.Products;
 using ElectronicsShop.Application.Users;
-using ElectronicsShop.Core.Repositories;
+using ElectronicsShop.Core.Orders;
+using ElectronicsShop.Core.Products;
+using ElectronicsShop.Domain.Repositories;
 using ElectronicsShop.Core.Users;
 using ElectronicsShop.EntityFrameworkCore.Repositories;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +28,9 @@ namespace ElectronicsShop.Application
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRepository<Product, int>, Repository<Product, int>>();
+            services.AddScoped<IRepository<Category, short>, Repository<Category, short>>();
+            services.AddScoped<IRepository<Order, int>, Repository<Order, int>>();
             return services;
         }
     }
