@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,17 +11,18 @@ namespace ElectronicsShop.Domain.Repositories
     {
         TEntity Get(TPrimaryKey entityId);
         Task<TEntity> GetAsync(TPrimaryKey entityId);
-        IQueryable<TEntity> GetIQueryable(TPrimaryKey entityId);
-        IList<TEntity> GetAll();
-        Task<IList<TEntity>> GetAllAsync();
-        IQueryable<TEntity> GetAllIQueryable();
-        TPrimaryKey Add(TEntity entity);
-        Task<TPrimaryKey> AddAsync(TEntity entity);
+        IList<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "");
+        Task<IList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "");
+        void Add(TEntity entity);
+        Task AddAsync(TEntity entity);
         void Update(TPrimaryKey entityId, TEntity entity);
-        Task UpdateAsync(TPrimaryKey entityId, TEntity entity);
-        bool Delete(TPrimaryKey entityId);
-        Task<bool> DeleteAsync(TPrimaryKey entityId);
-        void Save();
-        Task SaveAsync();
+        void Delete(TPrimaryKey entityId);
+        Task DeleteAsync(TPrimaryKey entityId);
+        int Save();
+        Task<int> SaveAsync();
     }
 }

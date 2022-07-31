@@ -1,11 +1,10 @@
-﻿using ElectronicsShop.Core;
+﻿using ElectronicsShop.Domain;
 using ElectronicsShop.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace ElectronicsShop.EntityFrameworkCore.Repositories
@@ -13,125 +12,136 @@ namespace ElectronicsShop.EntityFrameworkCore.Repositories
     public class RepositoryBase<TEntity, TPrimaryKey, TDbContext> : IRepository<TEntity, TPrimaryKey>
         where TEntity : Entity<TPrimaryKey> where TDbContext : DbContext
     {
-        public TDbContext _dbContext;
-        public RepositoryBase()
+        protected readonly TDbContext _dbContext;
+        private readonly DbSet<TEntity> _dbSet;
+        protected RepositoryBase()
         {
             _dbContext = (TDbContext)Activator.CreateInstance(typeof(TDbContext));
         }
-        public RepositoryBase(TDbContext dbContext)
+        protected RepositoryBase(TDbContext dbContext)
         {
             _dbContext = dbContext;
+            _dbSet = _dbContext.Set<TEntity>();
         }
 
         public TEntity Get(TPrimaryKey entityId)
         {
-            TEntity entity = getDbSet().Where(e => e.Id.Equals(entityId)).FirstOrDefault();
+            TEntity entity = _dbSet.FirstOrDefault(e => e.Id.Equals(entityId));
             if (entity == null) throw new Exception("Entity with the given ID is not found!");
             return entity;
         }
-
+        
         public async Task<TEntity> GetAsync(TPrimaryKey entityId)
         {
-            TEntity entity = await getDbSet().Where(e => e.Id.Equals(entityId)).FirstOrDefaultAsync();
+            TEntity entity = await _dbSet.FirstOrDefaultAsync(e => e.Id.Equals(entityId));
             if (entity == null) throw new Exception("Entity with the given ID is not found!");
             return entity;
         }
 
-        public IQueryable<TEntity> GetIQueryable(TPrimaryKey entityId)
+        public IList<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "")
         {
-            return getDbSet().Where(e => e.Id.Equals(entityId));
+            IQueryable<TEntity> query = _dbSet;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            var includePropertiesArray = includeProperties.Split(new[] { ',' }, 
+                StringSplitOptions.RemoveEmptyEntries);
+            foreach (var includeProperty in includePropertiesArray)
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (orderBy != null)
+            {
+                return orderBy(query).ToList();
+            }
+            else
+            {
+                return query.ToList();
+            }
         }
 
-        public IList<TEntity> GetAll()
+        public async Task<IList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "")
         {
-            return getDbSet().ToList();
+            IQueryable<TEntity> query = _dbSet;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            var includePropertiesArray = includeProperties.Split(new[] { ',' }, 
+                StringSplitOptions.RemoveEmptyEntries);
+            foreach (var includeProperty in includePropertiesArray)
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (orderBy != null)
+            {
+                return await orderBy(query).ToListAsync();
+            }
+            else
+            {
+                return await query.ToListAsync();
+            }
         }
 
-        public async Task<IList<TEntity>> GetAllAsync()
+        public void Add(TEntity entity)
         {
-            return await getDbSet().ToListAsync();
+            _dbSet.Add(entity);
         }
 
-        public IQueryable<TEntity> GetAllIQueryable()
+        public async Task AddAsync(TEntity entity)
         {
-            return getDbSet();
-        }
-
-        public TPrimaryKey Add(TEntity entity)
-        {
-            getDbSet().Add(entity);
-            Save();
-
-            return entity.Id;
-        }
-
-        public async Task<TPrimaryKey> AddAsync(TEntity entity)
-        {
-            await getDbSet().AddAsync(entity);
-            await SaveAsync();
-
-            return entity.Id;
+            await _dbSet.AddAsync(entity);
         }
 
         public void Update(TPrimaryKey entityId, TEntity entity)
         {
-            TEntity original = getDbSet().Where(e => e.Id.Equals(entityId)).FirstOrDefault();
-            if (original == null) throw new Exception("Entity with the given ID is not found!");
+            _dbSet.Attach(entity);
+            _dbContext.Entry(entity).State = EntityState.Modified;
+        }
 
-            PropertyInfo[] properties = typeof(TEntity).GetProperties();
-            foreach (PropertyInfo property in properties)
+        public void Delete(TPrimaryKey entityId)
+        {
+            var entityToDelete = _dbSet.Find(entityId);
+            if (_dbContext.Entry(entityToDelete).State == EntityState.Detached)
             {
-                if (property.GetValue(entity) != null)
-                {
-                    property.SetValue(original, property.GetValue(entity));
-                }
+                _dbSet.Attach(entityToDelete);
             }
 
-            Save();
+            _dbSet.Remove(entityToDelete);
         }
 
-        public async Task UpdateAsync(TPrimaryKey entityId, TEntity entity)
+        public async Task DeleteAsync(TPrimaryKey entityId)
         {
-            TEntity original = getDbSet().Where(e => e.Id.Equals(entityId)).FirstOrDefault();
-            if (original == null) throw new Exception("Entity with the given ID is not found!");
-
-            PropertyInfo[] properties = typeof(TEntity).GetProperties();
-            foreach (PropertyInfo property in properties)
+            var entityToDelete = await _dbSet.FindAsync(entityId);
+            if (_dbContext.Entry(entityToDelete).State == EntityState.Detached)
             {
-                if (property.GetValue(entity) != null)
-                {
-                    property.SetValue(original, property.GetValue(entity));
-                }
+                _dbSet.Attach(entityToDelete);
             }
 
-            await SaveAsync();
+            _dbSet.Remove(entityToDelete);
         }
 
-        public bool Delete(TPrimaryKey entityId)
+        public int Save()
         {
-            throw new NotImplementedException();
+            int result = _dbContext.SaveChanges();
+            return result;
         }
 
-        public Task<bool> DeleteAsync(TPrimaryKey entityId)
+        public async Task<int> SaveAsync()
         {
-            throw new NotImplementedException();
-        }
-
-        public void Save()
-        {
-            _dbContext.SaveChanges();
-        }
-
-        public async Task SaveAsync()
-        {
-            await _dbContext.SaveChangesAsync();
-        }
-
-        private DbSet<TEntity> getDbSet()
-        {
-            string typeName = typeof(TEntity).FullName;
-            DbSet<TEntity> dbSet = _dbContext.Set<TEntity>(typeName);
-            return dbSet;
+            int result = await _dbContext.SaveChangesAsync();
+            return result;
         }
 
     }

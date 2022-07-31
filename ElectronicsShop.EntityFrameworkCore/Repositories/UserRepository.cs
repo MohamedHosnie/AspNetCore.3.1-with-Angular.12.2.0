@@ -1,5 +1,5 @@
 ﻿using ElectronicsShop.Domain.Repositories;
-using ElectronicsShop.Core.Users;
+using ElectronicsShop.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,12 +21,12 @@ namespace ElectronicsShop.EntityFrameworkCore.Repositories
 
         public User GetByUsername(string username)
         {
-            return _dbContext.Users.Where(u => u.Username == username).FirstOrDefault();
+            return _dbContext.Users.FirstOrDefault(u => u.Username == username);
         }
 
         public async Task<User> GetByUsernameAsync(string username)
         {
-            return await _dbContext.Users.Where(u => u.Username == username).FirstOrDefaultAsync();
+            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
         }
     }
 }

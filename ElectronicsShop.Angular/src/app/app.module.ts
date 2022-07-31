@@ -18,6 +18,7 @@ import { API_BASE_URL, UserDto } from './shared/service-proxies/service-proxies'
 import { Router } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 export function appInitializerFactory(injector: Injector, platformLocation: PlatformLocation, router: Router) {
 
@@ -85,7 +86,8 @@ export function getRemoteServiceBaseUrl() {
     BrowserModule,
     HttpClientModule,
     NgbModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule,
   ],
   providers: [
     { provide: API_BASE_URL, useFactory: getRemoteServiceBaseUrl },

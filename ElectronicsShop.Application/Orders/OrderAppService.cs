@@ -1,13 +1,9 @@
 ﻿using ElectronicsShop.Application.Auth;
 using ElectronicsShop.Application.Orders.Dtos;
-using ElectronicsShop.Core.Orders;
 using ElectronicsShop.Domain.Orders;
 using ElectronicsShop.Domain.Repositories;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicsShop.Application.Orders
@@ -44,7 +40,8 @@ namespace ElectronicsShop.Application.Orders
 
         public async Task<IList<OrderDto>> GetAllOrders()
         {
-            return await _orderRepository.GetAllIQueryable().Include("Customer").Include("Product").Select(o => new OrderDto
+            var allOrders = await _orderRepository.GetAllAsync(includeProperties: "Customer,Product");
+            return allOrders.Select(o => new OrderDto
             {
                 Customer = o.Customer.FullName,
                 Product = o.Product.Name,
@@ -54,7 +51,7 @@ namespace ElectronicsShop.Application.Orders
                 ProductId = o.ProductId,
                 TotalPrice = o.TotalPrice,
                 UserId = o.UserId
-            }).ToListAsync();
+            }).ToList();
         }
     }
 }

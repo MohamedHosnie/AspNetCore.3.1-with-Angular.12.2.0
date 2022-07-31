@@ -1,11 +1,11 @@
-﻿using ElectronicsShop.Core.Orders;
+﻿using ElectronicsShop.Domain.Orders;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace ElectronicsShop.Core.Products
+namespace ElectronicsShop.Domain.Products
 {
     [Table("Product")]
     public class Product : Entity<int>

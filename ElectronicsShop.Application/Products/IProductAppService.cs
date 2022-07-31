@@ -1,8 +1,6 @@
 ﻿using ElectronicsShop.Application.Products.Dtos;
-using ElectronicsShop.Core.Products;
-using System;
+using ElectronicsShop.Domain.Products;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicsShop.Application.Products

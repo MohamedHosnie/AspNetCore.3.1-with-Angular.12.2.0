@@ -1,7 +1,7 @@
 ﻿using ElectronicsShop.Api;
 using ElectronicsShop.Application.Products;
 using ElectronicsShop.Application.Products.Dtos;
-using ElectronicsShop.Core.Products;
+using ElectronicsShop.Domain.Products;
 using ElectronicsShop.Shared.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

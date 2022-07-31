@@ -1,7 +1,7 @@
 ﻿using ElectronicsShop.Application.Auth;
 using ElectronicsShop.Shared.Enums;
 using ElectronicsShop.Application.Users.Dtos;
-using ElectronicsShop.Core.Users;
+using ElectronicsShop.Domain.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

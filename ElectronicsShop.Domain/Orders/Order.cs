@@ -1,12 +1,12 @@
-﻿using ElectronicsShop.Core.Products;
-using ElectronicsShop.Core.Users;
+﻿using ElectronicsShop.Domain.Products;
+using ElectronicsShop.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace ElectronicsShop.Core.Orders
+namespace ElectronicsShop.Domain.Orders
 {
     [Table("Order")]
     public class Order : Entity<int>

@@ -1,5 +1,5 @@
-﻿using ElectronicsShop.Core.Orders;
-using ElectronicsShop.Core.Products;
+﻿using ElectronicsShop.Domain.Orders;
+using ElectronicsShop.Domain.Products;
 using ElectronicsShop.Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -31,7 +31,9 @@ namespace ElectronicsShop.Domain.Orders
 
         public async Task<int> CreateNewOrder(Order orderToAdd)
         {
-            return await _orderRepository.AddAsync(orderToAdd);
+            await _orderRepository.AddAsync(orderToAdd);
+            await _orderRepository.SaveAsync();
+            return orderToAdd.Id;
         }
     }
 }

@@ -1,8 +1,7 @@
 ﻿
 //https://jasonwatmore.com/post/2020/07/16/aspnet-core-3-hash-and-verify-passwords-with-bcrypt
 using BC = BCrypt.Net.BCrypt;
-using ElectronicsShop.Core.Users;
-using Microsoft.AspNetCore.Identity;
+using ElectronicsShop.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -37,9 +36,10 @@ namespace ElectronicsShop.Application.Auth
             user.PasswordHash = passwordHash;
             user.Role = Role.Customer;
 
-            var userId = await _userRepository.AddAsync(user);
+            await _userRepository.AddAsync(user);
+            await _userRepository.SaveAsync();
 
-            return await Task.FromResult(userId);
+            return user.Id;
         }
 
         public async Task<User> ValidateUser(string username, string password)

@@ -1,12 +1,12 @@
 ﻿using ElectronicsShop.Shared.Enums;
-using ElectronicsShop.Core.Orders;
+using ElectronicsShop.Domain.Orders;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace ElectronicsShop.Core.Users
+namespace ElectronicsShop.Domain.Users
 {
     [Table("User")]
     public class User : Entity<int>

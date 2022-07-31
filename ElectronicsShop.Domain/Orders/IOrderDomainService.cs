@@ -1,4 +1,4 @@
-﻿using ElectronicsShop.Core.Orders;
+﻿using ElectronicsShop.Domain.Orders;
 using System;
 using System.Collections.Generic;
 using System.Text;

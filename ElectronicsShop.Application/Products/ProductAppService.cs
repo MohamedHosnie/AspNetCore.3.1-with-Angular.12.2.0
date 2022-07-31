@@ -1,13 +1,9 @@
-﻿using ElectronicsShop.Core.Products;
+﻿using ElectronicsShop.Domain.Products;
 using ElectronicsShop.Domain.Repositories;
-using ElectronicsShop.Domain.Products;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using ElectronicsShop.Application.Products.Dtos;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace ElectronicsShop.Application.Products
 {
@@ -57,7 +53,8 @@ namespace ElectronicsShop.Application.Products
 
         public async Task<IList<ProductDto>> GetAllProducts()
         {
-            return await _productRepository.GetAllIQueryable().Include("Category").Select(p => new ProductDto
+            var allCategories = await _productRepository.GetAllAsync(includeProperties: "Category");
+            return allCategories.Select(p => new ProductDto
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -66,7 +63,7 @@ namespace ElectronicsShop.Application.Products
                 Description = p.Description,
                 Price = p.Price,
                 PriceOfTwo = p.PriceOfTwo
-            }).ToListAsync();
+            }).ToList();
         }
     }
 }

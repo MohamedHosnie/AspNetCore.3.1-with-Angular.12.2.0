@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace ElectronicsShop.Core.Products
+namespace ElectronicsShop.Domain.Products
 {
     [Table("Category")]
     public class Category : Entity<short>

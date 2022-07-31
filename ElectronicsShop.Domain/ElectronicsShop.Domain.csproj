@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ElectronicsShop.Core\ElectronicsShop.Core.csproj" />
     <ProjectReference Include="..\ElectronicsShop.Shared\ElectronicsShop.Shared.csproj" />
   </ItemGroup>
 

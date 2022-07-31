@@ -1,4 +1,4 @@
-﻿using ElectronicsShop.Core.Products;
+﻿using ElectronicsShop.Domain.Products;
 using ElectronicsShop.Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,9 @@ namespace ElectronicsShop.Domain.Products
         public async Task<int> CreateNewProduct(Product product)
         {
             if (product.Price < 0 || product.PriceOfTwo < 0) throw new Exception("Price cannot be negative");
-            return await _productRepository.AddAsync(product);
+            await _productRepository.AddAsync(product);
+            await _productRepository.SaveAsync();
+            return product.Id;
         }
 
         float IProductDomainService.CalculateDiscount(float price, float discount)

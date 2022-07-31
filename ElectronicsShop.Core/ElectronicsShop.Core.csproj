@@ -8,4 +8,9 @@
     <ProjectReference Include="..\ElectronicsShop.Shared\ElectronicsShop.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Orders" />
+    <Folder Include="Products" />
+  </ItemGroup>
+
 </Project>

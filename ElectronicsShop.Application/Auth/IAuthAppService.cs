@@ -1,7 +1,4 @@
-﻿using ElectronicsShop.Core.Users;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ElectronicsShop.Domain.Users;
 using System.Threading.Tasks;
 
 namespace ElectronicsShop.Application.Auth

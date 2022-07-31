@@ -1,6 +1,6 @@
 ﻿using ElectronicsShop.Shared.Enums;
-using ElectronicsShop.Core.Products;
-using ElectronicsShop.Core.Users;
+using ElectronicsShop.Domain.Products;
+using ElectronicsShop.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
