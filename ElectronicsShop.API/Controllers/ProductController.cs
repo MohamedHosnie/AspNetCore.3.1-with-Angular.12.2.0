@@ -2,6 +2,8 @@
 using ElectronicsShop.Application.Products;
 using ElectronicsShop.Application.Products.Dtos;
 using ElectronicsShop.Core.Products;
+using ElectronicsShop.Shared.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -30,7 +32,7 @@ namespace ElectronicsShop.Api.Controllers
             }).ToList();
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = RoleName.Admin)]
         public async Task<int> Create(CreateProductDto product)
         {
             return await _productAppService.CreateNewProduct(product);

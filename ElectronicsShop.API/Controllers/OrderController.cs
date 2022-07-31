@@ -1,5 +1,7 @@
 ﻿using ElectronicsShop.Application.Orders;
 using ElectronicsShop.Application.Orders.Dtos;
+using ElectronicsShop.Shared.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -17,13 +19,13 @@ namespace ElectronicsShop.Api.Controllers
             _orderAppService = orderAppService;
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public async Task<int> Create(CreateOrderDto order)
         {
             return await _orderAppService.CreateNewOrder(order);
         }
 
-        [HttpGet]
+        [HttpGet, Authorize(Roles = RoleName.Admin)]
         public async Task<IList<OrderDto>> GetAll()
         {
             return await _orderAppService.GetAllOrders();
