@@ -10,9 +10,9 @@ namespace ElectronicsShop.Application.Orders
 {
     public class OrderAppService : ElectronicsShopAppServiceBase, IOrderAppService
     {
-        public readonly IOrderDomainService _orderDomainService;
-        public readonly IAuthAppService _authAppService;
-        public readonly IRepository<Order, int> _orderRepository;
+        private readonly IOrderDomainService _orderDomainService;
+        private readonly IAuthAppService _authAppService;
+        private readonly IRepository<Order, int> _orderRepository;
         public OrderAppService(IOrderDomainService orderDomainService, IAuthAppService authAppService, IRepository<Order, int> orderRepository)
         {
             _orderDomainService = orderDomainService;

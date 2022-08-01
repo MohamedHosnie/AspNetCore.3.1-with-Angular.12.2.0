@@ -16,7 +16,7 @@ namespace ElectronicsShop.Api.Controllers
     [ApiController]
     public class ProductController : ApiControllerBase
     {
-        public readonly IProductAppService _productAppService;
+        private readonly IProductAppService _productAppService;
         public ProductController(IProductAppService productAppService)
         {
             _productAppService = productAppService;
@@ -25,7 +25,7 @@ namespace ElectronicsShop.Api.Controllers
         [HttpGet("Categories")]
         public async Task<IList<CategoryDto>> Categories()
         {
-            return (await _productAppService.getAllCategories()).Select(x => new CategoryDto
+            return (await _productAppService.GetAllCategories()).Select(x => new CategoryDto
             {
                 Id = x.Id,
                 Name = x.Name,

@@ -2,9 +2,6 @@
 using ElectronicsShop.Domain.Products;
 using ElectronicsShop.Domain.Users;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ElectronicsShop.EntityFrameworkCore
 {
@@ -15,9 +12,15 @@ namespace ElectronicsShop.EntityFrameworkCore
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
 
+        private static DbContextOptions<ElectronicsShopDbContext> _options;
+        public ElectronicsShopDbContext() 
+            : base(_options)
+        {
+        }
         public ElectronicsShopDbContext(DbContextOptions<ElectronicsShopDbContext> options) 
             : base(options)
         {
+            _options = options;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

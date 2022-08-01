@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ElectronicsShop.Domain
 {
-    public class ElectronicsShopDomainServiceBase
+    public class ElectronicsShopDomainServiceBase : ServiceBase
     {
     }
 }

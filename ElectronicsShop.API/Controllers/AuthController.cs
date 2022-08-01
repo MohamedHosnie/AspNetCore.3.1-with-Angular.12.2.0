@@ -16,9 +16,9 @@ namespace ElectronicsShop.Api.Controllers
     [ApiController]
     public class AuthController : ApiControllerBase
     {
-        public readonly IAuthAppService _authAppService;
-        public readonly IUserAppService _userAppService;
-        public readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IAuthAppService _authAppService;
+        private readonly IUserAppService _userAppService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public AuthController(IAuthAppService authAppService, IUserAppService userAppService, IHttpContextAccessor httpContextAccessor)
         {
             _authAppService = authAppService;
@@ -29,7 +29,7 @@ namespace ElectronicsShop.Api.Controllers
         [HttpPost("Register")]
         public async Task<int> Register(CreateUserDto user)
         {
-            var unique = _userAppService.UsernameIsUnique(user.Username);
+            var unique = await _userAppService.UsernameIsUnique(user.Username);
 
             if(!unique)
             {

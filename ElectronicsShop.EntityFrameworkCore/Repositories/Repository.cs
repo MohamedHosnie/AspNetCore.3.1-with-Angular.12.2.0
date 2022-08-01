@@ -6,14 +6,10 @@ using System.Text;
 
 namespace ElectronicsShop.EntityFrameworkCore.Repositories
 {
-    public class Repository<TEntity, TPrimaryKey> : RepositoryBase<TEntity, TPrimaryKey, ElectronicsShopDbContext>,
-        IRepository<TEntity, TPrimaryKey> where TEntity : Entity<TPrimaryKey>
+    public class Repository<TEntity, TPrimaryKey> : RepositoryBase<TEntity, TPrimaryKey>
+        where TEntity : Entity<TPrimaryKey>
     {
-        public Repository() : base()
-        {
-        }
-
-        public Repository(ElectronicsShopDbContext dbContext) : base(dbContext)
+        public Repository(ElectronicsShopDbContext dbContext, IUnitOfWorkManager unitOfWorkManager) : base(dbContext, unitOfWorkManager)
         {
         }
     }

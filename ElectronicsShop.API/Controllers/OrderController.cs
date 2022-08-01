@@ -13,7 +13,7 @@ namespace ElectronicsShop.Api.Controllers
     [ApiController]
     public class OrderController : ApiControllerBase
     {
-        public readonly IOrderAppService _orderAppService;
+        private readonly IOrderAppService _orderAppService;
         public OrderController(IOrderAppService orderAppService)
         {
             _orderAppService = orderAppService;

@@ -1,8 +1,10 @@
 ﻿
+using System.Threading.Tasks;
+
 namespace ElectronicsShop.Application.Users
 {
     public interface IUserAppService
     {
-        public bool UsernameIsUnique(string username);
+        public Task<bool> UsernameIsUnique(string username);
     }
 }

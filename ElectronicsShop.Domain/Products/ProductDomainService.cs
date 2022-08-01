@@ -4,12 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using ElectronicsShop.Domain.Users;
 
 namespace ElectronicsShop.Domain.Products
 {
     public class ProductDomainService : ElectronicsShopDomainServiceBase, IProductDomainService
     {
-        public readonly IRepository<Product, int> _productRepository;
+        private readonly IRepository<Product, int> _productRepository;
         public ProductDomainService(IRepository<Product, int> productRepository)
         {
             _productRepository = productRepository;
@@ -32,6 +33,6 @@ namespace ElectronicsShop.Domain.Products
         {
             return (price * (float)2.0) - ((price * (float)2.0) * (discountOnTwo / (float)100.0));
         }
-
+        
     }
 }

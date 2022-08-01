@@ -14,10 +14,13 @@ namespace ElectronicsShop.EntityFrameworkCore
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRepository<User, int>, Repository<User, int>>();
             services.AddScoped<IRepository<Product, int>, Repository<Product, int>>();
             services.AddScoped<IRepository<Category, short>, Repository<Category, short>>();
             services.AddScoped<IRepository<Order, int>, Repository<Order, int>>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWorkManager, UnitOfWorkManager>();
             return services;
         }
     }

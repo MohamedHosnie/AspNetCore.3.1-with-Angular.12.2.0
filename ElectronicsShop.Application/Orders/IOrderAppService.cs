@@ -6,7 +6,7 @@ namespace ElectronicsShop.Application.Orders
 {
     public interface IOrderAppService
     {
-        public Task<int> CreateNewOrder(CreateOrderDto order);
-        public Task<IList<OrderDto>> GetAllOrders();
+        Task<int> CreateNewOrder(CreateOrderDto order);
+        Task<IList<OrderDto>> GetAllOrders();
     }
 }

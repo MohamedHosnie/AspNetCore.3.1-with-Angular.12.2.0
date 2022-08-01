@@ -1,17 +1,19 @@
-﻿using ElectronicsShop.Domain.Repositories;
+﻿using System.Threading.Tasks;
+using ElectronicsShop.Domain.Repositories;
+using ElectronicsShop.Domain.Users;
 
 namespace ElectronicsShop.Application.Users
 {
     public class UserAppService : ElectronicsShopAppServiceBase, IUserAppService
     {
-        public readonly IUserRepository _userRepository;
-        public UserAppService(IUserRepository userRepository)
+        private readonly IRepository<User, int> _userRepository;
+        public UserAppService(IRepository<User, int> userRepository)
         {
             _userRepository = userRepository;
         }
-        public bool UsernameIsUnique(string username)
+        public async Task<bool> UsernameIsUnique(string username)
         {
-            var existingUser = _userRepository.GetByUsername(username);
+            var existingUser = await _userRepository.GetSingleAsync(filter: user => user.Username == username);
             
             return existingUser == null;
         }

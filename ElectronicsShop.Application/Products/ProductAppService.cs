@@ -9,9 +9,9 @@ namespace ElectronicsShop.Application.Products
 {
     public class ProductAppService : ElectronicsShopAppServiceBase, IProductAppService
     {
-        public readonly IRepository<Product, int> _productRepository;
-        public readonly IRepository<Category, short> _categoryRepository;
-        public readonly IProductDomainService _productDomainService;
+        private readonly IRepository<Product, int> _productRepository;
+        private readonly IRepository<Category, short> _categoryRepository;
+        private readonly IProductDomainService _productDomainService;
         public ProductAppService(
             IRepository<Product, int> productRepository, 
             IRepository<Category, short> categoryRepository,
@@ -23,7 +23,7 @@ namespace ElectronicsShop.Application.Products
             _productDomainService = productDomainService;
         }
 
-        public async Task<IList<Category>> getAllCategories()
+        public async Task<IList<Category>> GetAllCategories()
         {
             return await _categoryRepository.GetAllAsync();
         }

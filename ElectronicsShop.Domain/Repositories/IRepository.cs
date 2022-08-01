@@ -11,6 +11,8 @@ namespace ElectronicsShop.Domain.Repositories
     {
         TEntity Get(TPrimaryKey entityId);
         Task<TEntity> GetAsync(TPrimaryKey entityId);
+        TEntity GetSingle(Expression<Func<TEntity, bool>> filter);
+        Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> filter);
         IList<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = "");
@@ -22,6 +24,7 @@ namespace ElectronicsShop.Domain.Repositories
         void Update(TPrimaryKey entityId, TEntity entity);
         void Delete(TPrimaryKey entityId);
         Task DeleteAsync(TPrimaryKey entityId);
+        void Delete(TEntity entity);
         int Save();
         Task<int> SaveAsync();
     }

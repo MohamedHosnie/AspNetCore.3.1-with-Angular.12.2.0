@@ -5,9 +5,9 @@ namespace ElectronicsShop.Application.Auth
 {
     public interface IAuthAppService
     {
-        public Task<int> CreateUser(User user, string password);
-        public Task<User> ValidateUser(string username, string password);
-        public Task<string> CreateJwtToken(User user);
-        public Task<User> GetLoggedInUser();
+        Task<int> CreateUser(User user, string password);
+        Task<User> ValidateUser(string username, string password);
+        Task<string> CreateJwtToken(User user);
+        Task<User> GetLoggedInUser();
     }
 }

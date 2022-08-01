@@ -8,7 +8,7 @@ namespace ElectronicsShop.Domain.Orders
 {
     public interface IOrderDomainService
     {
-        public Task<float> CalculateTotalPrice(int productId, int quantity);
-        public Task<int> CreateNewOrder(Order orderToAdd);
+        Task<float> CalculateTotalPrice(int productId, int quantity);
+        Task<int> CreateNewOrder(Order orderToAdd);
     }
 }

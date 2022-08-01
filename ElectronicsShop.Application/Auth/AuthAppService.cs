@@ -10,6 +10,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
+using ElectronicsShop.Domain.Products;
 using ElectronicsShop.Shared.Enums;
 using Microsoft.AspNetCore.Http;
 using ElectronicsShop.Domain.Repositories;
@@ -18,15 +19,16 @@ namespace ElectronicsShop.Application.Auth
 {
     public class AuthAppService : ElectronicsShopAppServiceBase, IAuthAppService
     {
-        public readonly IConfiguration _configuration;
-        public readonly IHttpContextAccessor _httpContextAccessor;
-        public readonly IUserRepository _userRepository;
+        private readonly IConfiguration _configuration;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IRepository<User, int> _userRepository;
 
-        public AuthAppService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IUserRepository userRepository)
+        public AuthAppService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IRepository<User, int> userRepository, IProductDomainService productDomainService)
         {
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
             _userRepository = userRepository;
+            
         }
 
         public async Task<int> CreateUser(User user, string password)
@@ -35,16 +37,16 @@ namespace ElectronicsShop.Application.Auth
 
             user.PasswordHash = passwordHash;
             user.Role = Role.Customer;
-
+            
             await _userRepository.AddAsync(user);
             await _userRepository.SaveAsync();
-
+            
             return user.Id;
         }
 
         public async Task<User> ValidateUser(string username, string password)
         {
-            var savedUser = await _userRepository.GetByUsernameAsync(username);
+            var savedUser = await _userRepository.GetSingleAsync(filter: user => user.Username == username);
             if (savedUser != null
             && BC.Verify(password, savedUser.PasswordHash))
             {
@@ -66,12 +68,12 @@ namespace ElectronicsShop.Application.Auth
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:SecretKey").Value));
             var expiryDays = Int32.Parse(_configuration.GetSection("AppSettings:JwtExpiryDays").Value);
 
-            var creds = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha384Signature);
+            var credentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha384Signature);
 
             var token = new JwtSecurityToken(
                 claims: claims,
                 expires: DateTime.Now.AddDays(expiryDays),
-                signingCredentials: creds
+                signingCredentials: credentials
             );
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);

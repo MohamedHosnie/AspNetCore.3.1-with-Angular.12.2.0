@@ -7,8 +7,8 @@ namespace ElectronicsShop.Application.Products
 {
     public interface IProductAppService
     {
-        public Task<IList<Category>> getAllCategories();
-        public Task<int> CreateNewProduct(CreateProductDto product);
+        Task<IList<Category>> GetAllCategories();
+        Task<int> CreateNewProduct(CreateProductDto product);
         Task<IList<ProductDto>> GetAllProducts();
     }
 }

@@ -10,13 +10,14 @@ namespace ElectronicsShop.Domain.Orders
 {
     public class OrderDomainService : ElectronicsShopDomainServiceBase, IOrderDomainService
     {
-        public readonly IRepository<Product, int> _productRepository;
-        public readonly IRepository<Order, int> _orderRepository;
+        private readonly IRepository<Product, int> _productRepository;
+        private readonly IRepository<Order, int> _orderRepository;
         public OrderDomainService(IRepository<Product, int> productRepository, IRepository<Order, int> orderRepository)
         {
             _productRepository = productRepository;
             _orderRepository = orderRepository;
         }
+        
         public Task<float> CalculateTotalPrice(int productId, int quantity)
         {
             if (quantity < 1) throw new Exception("Quantity cannot be less than 1");
@@ -26,7 +27,7 @@ namespace ElectronicsShop.Domain.Orders
             var quantity1 = product.PriceOfTwo.HasValue ? (quantity % 2) : quantity;
             var quantity2 = quantity / 2;
 
-            return Task.FromResult((quantity1 * product.Price) + (quantity2 * (product.PriceOfTwo.HasValue ? product.PriceOfTwo.Value : 0)));
+            return Task.FromResult((quantity1 * product.Price) + (quantity2 * (product.PriceOfTwo ?? 0)));
         }
 
         public async Task<int> CreateNewOrder(Order orderToAdd)
