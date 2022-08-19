@@ -8,7 +8,7 @@ import { SessionService } from '../session/session.service';
   providedIn: 'root'
 })
 export class AuthService {
-  
+
   private _isAuthenticated = false;
   private token!: string;
 
@@ -76,7 +76,8 @@ export class AuthService {
           Emitters.authEmitter.emit(false);
         }
       }, (error: Exception) => {
-        this.toastr.error(error.response, "Something is wrong");
+        var response = JSON.parse(error.response);
+        this.toastr.error(response.Message, "Something is wrong");
         this.removeToken();
         this._isAuthenticated = false;
         reject(error);

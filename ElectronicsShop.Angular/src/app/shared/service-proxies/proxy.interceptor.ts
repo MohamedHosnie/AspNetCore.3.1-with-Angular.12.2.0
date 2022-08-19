@@ -6,8 +6,9 @@ import {
   HttpInterceptor,
   HttpHeaders
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {observable, Observable} from 'rxjs';
 import { AuthService } from '../services/auth/auth.service';
+import {map, mergeMap} from "rxjs/operators";
 
 @Injectable()
 export class ProxyInterceptor implements HttpInterceptor {

@@ -90,17 +90,9 @@ namespace ElectronicsShop
                 context.Response.ContentType = "application/json";
                 var exception = context.Features
                 .Get<IExceptionHandlerPathFeature>()
-                .Error;
-                var response = new { error = exception.Message };
-                var message = "";
-
-                if(env.IsDevelopment())
-                {
-                    message = exception.Message;
-                } else
-                {
-                    message = "Internal Server Error!";
-                }
+                .Error; 
+                
+                var message = env.IsDevelopment() ? exception.Message : "Internal Server Error!";
 
                 await context.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(new Error()
                 {
